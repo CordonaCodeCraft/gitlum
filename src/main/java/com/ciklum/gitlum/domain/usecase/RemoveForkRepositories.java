@@ -11,11 +11,7 @@ public class RemoveForkRepositories {
 	public Repo[] invoke(final Repo[] source) {
 		return Arrays
 				.stream(source)
-				.filter(this::isForkedRepository)
+				.filter(Utils::isNotForkedRepository)
 				.toArray(Repo[]::new);
-	}
-
-	private boolean isForkedRepository(final Repo repo) {
-		return !repo.getFork();
 	}
 }
