@@ -29,7 +29,7 @@ public class Controller {
 	@GetMapping("/get")
 	@ResponseStatus(HttpStatus.OK)
 	public List<RepoDTO> getResult(@RequestBody final Request request) {
-		log.info("Produced result");
+		log.info("Returning repositories and branches for user {}", request.gitUser());
 		return produceResult.invoke(request.gitUser());
 	}
 
