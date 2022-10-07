@@ -1,6 +1,6 @@
 package com.ciklum.gitlum.exception;
 
-import com.ciklum.gitlum.exception.containers.InvalidGitUserExceptionContainer;
+import com.ciklum.gitlum.exception.containers.GitUserNotFoundExceptionContainer;
 import com.ciklum.gitlum.exception.containers.MessageNotAcceptableExceptionContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +18,10 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class ApiExceptionHandler {
 
 	@ExceptionHandler(value = {WebClientResponseException.class})
-	public ResponseEntity<Object> handleInvalidGitUserException(final WebClientResponseException exception) {
+	public ResponseEntity<Object> handleGitUserNotFoundException(final WebClientResponseException exception) {
 		final var notFound = NOT_FOUND;
 		final var message = buildErrorMessage(requireNonNull(exception.getMessage()));
-		final var container = new InvalidGitUserExceptionContainer(notFound.value(), message);
+		final var container = new GitUserNotFoundExceptionContainer(notFound.value(), message);
 		log.error(message);
 		return new ResponseEntity<>(container, notFound);
 	}
