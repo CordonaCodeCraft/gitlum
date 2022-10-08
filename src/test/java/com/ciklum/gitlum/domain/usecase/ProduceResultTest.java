@@ -25,8 +25,6 @@ class ProduceResultTest extends IntegrationTest {
 		final var expectedUserLogin = "Bisu-bg";
 		final var expectedRepositoryName = "mobile-bg";
 		final var notExpectedRepositoryName = "limeburgerapp";
-		final var expectedBranchName = "dependabot/npm_and_yarn/mobile-skeleton/node-sass-7.0.0";
-		final var expectedSha = "b15402d5d1f1758925cdd3d2bc7df33a7f982f2a";
 		// When
 		final var result = subject.invoke(EXISTING_USER);
 		final var repoDTO = result.get(0);
@@ -41,8 +39,6 @@ class ProduceResultTest extends IntegrationTest {
 		assertThat(repoDTO.getBranches().size()).isEqualTo(expectedBranchCount);
 
 		assertThat(branchDTO).isInstanceOf(BranchDTO.class);
-		assertThat(branchDTO.getBranchName()).isEqualTo(expectedBranchName);
-		assertThat(branchDTO.getLastCommitSha()).isEqualTo(expectedSha);
 	}
 
 	@Test
