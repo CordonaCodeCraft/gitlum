@@ -37,7 +37,7 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 === Spring dependencies
 
 . https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web[Spring Boot Starter Web]
-. https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html[Spring Boot Starter webflux]
+. https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html[Spring Boot Starter Webflux]
 . https://spring.io/projects/spring-cloud-sleuth[Spring Boot Starter Sleuth]
 . https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/html/boot-features-testing.html[Spring Boot Starter Test]
 . https://projectreactor.io/docs/core/3.3.12.RELEASE/reference/index.html#testing[Project Reactor Testing Framework]
@@ -55,7 +55,6 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 . https://www.jsoncrack.com/editor[Json to visual graphs]
 . https://www.jsonschema2pojo.org[Json to Java POJO]
 . https://www.codebeautify.org/jsontoxml[Json to XML]
-. https://www.codebeautify.org/jsontoxml[Json to XML]
 . https://www.grammarly.com[English to proper English]
 . https://www.postman.com[Postman]
 
@@ -69,7 +68,7 @@ Download the application source code from https://github.com/CordonaCodeCraft/gi
 
 Unzip the archive file
 
-Open the project with your favorite IDE (we hope this is https://www.jetbrains.com/idea/[Intellij] :)
+Open the project with your favorite IDE (we hope this is https://www.jetbrains.com/idea/[Intellij] :) )
 
 Open your terminal at the root of the project and build it with the command
 [source,bash]
