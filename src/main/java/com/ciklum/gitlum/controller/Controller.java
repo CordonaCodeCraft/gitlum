@@ -25,11 +25,14 @@ public class Controller {
 
 	private final ProduceResult produceResult;
 
-	@ApiOperation(value = "Serves a collection of Github repositories and their branches per the business requirements")
+	@ApiOperation(
+			value = "Serves a collection of Github repositories and their branches per the business requirements",
+			tags = {"Get repositories and branches"}
+	)
 	@GetMapping("/get")
 	@ResponseStatus(HttpStatus.OK)
 	public List<RepoDTO> getResult(@RequestBody final Request request) {
-		log.info("Returning repositories and branches for user {}", request.gitUser());
+		log.info("Querying repositories and branches for user {}", request.gitUser());
 		return produceResult.invoke(request.gitUser());
 	}
 

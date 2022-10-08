@@ -1,7 +1,7 @@
 package com.ciklum.gitlum.exception;
 
 import com.ciklum.gitlum.exception.containers.GitUserNotFoundExceptionContainer;
-import com.ciklum.gitlum.exception.containers.MessageNotAcceptableExceptionContainer;
+import com.ciklum.gitlum.exception.containers.RequestNotAcceptableExceptionContainer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
+import static com.ciklum.gitlum.config.Constants.ACCEPTABLE_REQUEST_FORMAT;
+import static com.ciklum.gitlum.config.Constants.NON_ACCEPTABLE_REQUEST_FORMAT;
+import static com.ciklum.gitlum.config.Constants.NOT_ACCEPTABLE;
+import static com.ciklum.gitlum.config.Constants.NOT_ACCEPTABLE_REQUEST_ERROR_MESSAGE;
+import static com.ciklum.gitlum.config.Constants.NOT_FOUND;
+import static com.ciklum.gitlum.config.Constants.USER_NOT_FOUND_ERROR_MESSAGE;
 import static java.util.Objects.requireNonNull;
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
 @Slf4j
@@ -19,25 +23,32 @@ public class ApiExceptionHandler {
 
 	@ExceptionHandler(value = {WebClientResponseException.class})
 	public ResponseEntity<Object> handleGitUserNotFoundException(final WebClientResponseException exception) {
-		final var notFound = NOT_FOUND;
-		final var message = buildErrorMessage(requireNonNull(exception.getMessage()));
-		final var container = new GitUserNotFoundExceptionContainer(notFound.value(), message);
-		log.error(message);
-		return new ResponseEntity<>(container, notFound);
+		final var errorMessage = buildErrorMessage(requireNonNull(exception.getMessage()));
+		final var container = new GitUserNotFoundExceptionContainer(NOT_FOUND.value(), errorMessage);
+		log.error(errorMessage);
+		return new ResponseEntity<>(container, NOT_FOUND);
 	}
 
 	@ExceptionHandler(value = {HttpMessageNotReadableException.class})
-	public ResponseEntity<Object> handleMessageNotAcceptableException() {
-		final var notAcceptable = NOT_ACCEPTABLE;
-		final var message = "Invalid content type (XML) provided. JSON content type required";
-		final var container = new MessageNotAcceptableExceptionContainer(notAcceptable.value(), message);
-		log.error(message);
-		return new ResponseEntity<>(container, notAcceptable);
+	public ResponseEntity<Object> handleRequestNotAcceptableException() {
+		final var errorMessage =
+				String.format(
+						NOT_ACCEPTABLE_REQUEST_ERROR_MESSAGE,
+						NON_ACCEPTABLE_REQUEST_FORMAT,
+						ACCEPTABLE_REQUEST_FORMAT
+				);
+		final var container = new RequestNotAcceptableExceptionContainer(NOT_ACCEPTABLE.value(), errorMessage);
+		log.error(errorMessage);
+		return new ResponseEntity<>(container, NOT_ACCEPTABLE);
 	}
 
 	private String buildErrorMessage(final String message) {
-		final var s = message.replace("/repos", "");
-		return String.format("Github user with username %s not found", s.substring(s.lastIndexOf("/") + 1));
+		return String.format(USER_NOT_FOUND_ERROR_MESSAGE, extractUserName(message));
+	}
+
+	private String extractUserName(final String source) {
+		final var s = source.replace("/repos", "");
+		return s.substring(s.lastIndexOf("/") + 1);
 	}
 
 }

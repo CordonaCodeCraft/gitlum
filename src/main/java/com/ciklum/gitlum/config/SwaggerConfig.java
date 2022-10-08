@@ -38,7 +38,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
 	public static final String TITLE = "Gitlum - Ciklum application for GitHub";
 	public static final String DESCRIPTION =
-			"Demo web application for visualising public non-forked Github repositories in a minimalistic way";
+			"Demo web application for presenting public non-forked Github repositories for existing Github users in a minimalistic way";
 	public static final String VERSION = "1.0";
 	public static final String TERMS_OF_SERVICE_URL = "https://www.ciklum.com/terms-of-use";
 	public static final String LICENSE = "Apache License Version 2.0";
