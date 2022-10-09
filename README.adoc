@@ -379,7 +379,7 @@ To consult with the documentation:
 
 Start the application
 
-In your favorite web browser open the http://localhost:8080/docApi/swagger-ui.html[*Swagger-ui*]
+In your favorite web browser open the http://localhost:8080/docApi/swagger-ui.html[*Swagger UI*]
 
 image::readmeassets/SwaggerUIScreenshot.jpg[]
 
@@ -441,7 +441,7 @@ For an actual production project, the author would prefer to utilize https://www
 - https://www.youtube.com/watch?v=TBuIGBCF9jc[Make your bed]
 - https://www.youtube.com/watch?v=IdTMDpizis8[Good]
 
-"Do or do not. There is no try."
+https://www.youtube.com/watch?v=tCAvrfRZ5mw["Do or do not. There is no try."]
 
 _Yoda_
 
