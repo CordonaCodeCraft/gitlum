@@ -55,8 +55,8 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 . https://www.jsoncrack.com/editor[Json to visual graphs]
 . https://www.jsonschema2pojo.org[Json to Java POJO]
 . https://www.codebeautify.org/jsontoxml[Json to XML]
-. https://www.grammarly.com[English to proper English]
 . https://www.postman.com[Postman]
+. https://www.grammarly.com[English to proper English]
 
 == How to start the application
 
@@ -396,6 +396,25 @@ image::readmeassets/PostmanUIScreenshot.jpg[]
 The project's author is passionate about clean architecture, propagated by https://en.wikipedia.org/wiki/Robert_C._Martin[Uncle Bob] in his https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164[book], and the implementation of various services as https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html[use cases] and favoring https://medium.com/geekculture/composition-over-inheritance-7faed1628595[composition over inheritance].
 
 This project is a demo of such an implementation. The author firmly believes that it enables the single responsibility principle on the extreme and proves that such a code base developed by this design pattern is a pleasure to test.
+
+=== Single module project
+
+The application was structured as a single-module project.
+
+This compromise on https://tomgregory.com/gradle-multi-project-build-benefits/[best practices] is barely tolerable and was necessary due to the limited time to implement the assignment.
+
+As a further mandatory improvement, the author would split the project into separate modules, which
+
+- Depend on shared build logic in https://blog.jdriven.com/2021/02/gradle-goodness-shared-configuration-with-conventions-plugin/[convention plugins] to https://en.wikipedia.org/wiki/Don%27t_repeat_yourself[avoid duplication]
+
+- Strictly depend on precise compile time and runtime dependencies required for the respective business and programmatic logic.
+
+- Enable https://codeopinion.com/loosely-coupled-monolith/[loosely coupled monolithic architecture]
+
+- Respect the https://medium.com/microtica/the-concept-of-domain-driven-design-explained-3184c0fd7c3f[domain boundaries]
+
+- Represent the seeds of future microservices
+
 
 === Almost reactive
 
