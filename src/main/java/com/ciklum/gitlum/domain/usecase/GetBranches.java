@@ -23,7 +23,7 @@ public class GetBranches {
 	private String repositoryBranchesURI;
 
 	private final WebClient.Builder webClientBuilder;
-	public final BranchMapper branchMapper;
+	private final BranchMapper branchMapper;
 
 	public Mono<Set<BranchDTO>> invoke(final Repo source) {
 		return webClientBuilder
