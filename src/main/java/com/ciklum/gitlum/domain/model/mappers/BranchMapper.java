@@ -1,16 +1,12 @@
-package com.ciklum.gitlum.domain.model.mapping;
+package com.ciklum.gitlum.domain.model.mappers;
 
 import com.ciklum.gitlum.domain.model.dto.BranchDTO;
 import com.ciklum.gitlum.domain.model.git.Branch;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel="spring")
 public interface BranchMapper {
-
-	BranchMapper INSTANCE = Mappers.getMapper(BranchMapper.class);
-
 	@Mapping(source = "name", target = "branchName")
 	@Mapping(source = "commit.sha", target = "lastCommitSha")
 	BranchDTO entityToDTO(final Branch source);

@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 import static com.ciklum.gitlum.config.Constants.CONTROLLER_BASE_URL;
 
@@ -29,9 +28,9 @@ public class Controller {
 			value = "Serves a collection of Github repositories and their branches per the business requirements",
 			tags = {"Get repositories and branches"}
 	)
-	@GetMapping("/get")
+	@GetMapping(value = "/get")
 	@ResponseStatus(HttpStatus.OK)
-	public List<RepoDTO> getResult(@RequestBody final Request request) {
+	public Flux<RepoDTO> getResult(@RequestBody final Request request) {
 		log.info("Querying repositories and branches for user {}", request.gitUser());
 		return produceResult.invoke(request.gitUser());
 	}
