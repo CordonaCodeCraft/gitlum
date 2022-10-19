@@ -1,3 +1,7 @@
 spring:
   application:
     name: gitlum
+constants:
+  git-base-url: "https://api.github.com"
+  user-repositories-uri: "/users/{user}/repos"
+  repository-branches-uri: "/repos/{user}/{repo}/branches"
