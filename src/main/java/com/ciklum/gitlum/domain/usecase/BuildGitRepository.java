@@ -40,7 +40,7 @@ public class BuildGitRepository {
 
 	private Mono<Set<BranchDTO>> branchesToCollection(final Flux<Branch> source) {
 		return source
-				.map(branchMapper::entityToDTO)
+				.map(branchMapper::ToDTO)
 				.collect(Collectors.toSet());
 	}
 

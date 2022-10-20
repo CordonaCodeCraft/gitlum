@@ -9,6 +9,6 @@ import org.mapstruct.Mapping;
 public interface BranchMapper {
 	@Mapping(source = "name", target = "branchName")
 	@Mapping(source = "commit.sha", target = "lastCommitSha")
-	BranchDTO entityToDTO(final Branch source);
+	BranchDTO ToDTO(final Branch source);
 
 }
