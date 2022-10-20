@@ -1,6 +1,7 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.annotations.UseCase;
+import com.ciklum.gitlum.controller.Request;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ public class GetRepositories {
 
 	private final WebClient.Builder webClientBuilder;
 
-	public Flux<Repo> invoke(final String userName) {
+	public Flux<Repo> invoke(final Request request) {
 		return webClientBuilder
 				.baseUrl(gitBaseURL)
 				.build()
@@ -26,7 +27,9 @@ public class GetRepositories {
 				.uri(uriBuilder ->
 						uriBuilder
 								.path(repositoriesURI)
-								.build(userName)
+								.queryParam("page", request.pageNumber())
+								.queryParam("per_page", request.resultsPerPage())
+								.build(request.gitUser())
 				)
 				.retrieve()
 				.bodyToFlux(Repo.class)

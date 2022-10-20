@@ -1,6 +1,7 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.annotations.UseCase;
+import com.ciklum.gitlum.controller.Request;
 import com.ciklum.gitlum.domain.model.dto.BranchDTO;
 import com.ciklum.gitlum.domain.model.dto.RepoDTO;
 import com.ciklum.gitlum.domain.model.git.Branch;
@@ -17,16 +18,16 @@ import java.util.stream.Collectors;
 
 @UseCase
 @RequiredArgsConstructor
-public class BuildGitRepository {
+public class BuildGitRepositories {
 
 	private final GetRepositories getRepositories;
 	private final GetBranches getBranches;
 	private final RepoMapper repoMapper;
 	private final BranchMapper branchMapper;
 
-	public Flux<RepoDTO> invoke(final String userName) {
+	public Flux<RepoDTO> invoke(final Request request) {
 		return getRepositories
-				.invoke(userName)
+				.invoke(request)
 				.flatMap(this::repoToDTO);
 	}
 
@@ -35,7 +36,7 @@ public class BuildGitRepository {
 		final var branches = branchesToCollection(getBranches.invoke(source));
 		return dto
 				.zipWith(branches)
-				.map(BuildGitRepository::asFinalProduct);
+				.map(BuildGitRepositories::asFinalProduct);
 	}
 
 	private Mono<Set<BranchDTO>> branchesToCollection(final Flux<Branch> source) {
