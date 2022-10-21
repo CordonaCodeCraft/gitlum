@@ -5,6 +5,7 @@ import com.ciklum.gitlum.exception.ErrorContainer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -42,7 +43,7 @@ public class GitRepositoriesHandler {
 				.onErrorResume(
 						WebClientResponseException.class,
 						e -> ok().bodyValue(
-								new ErrorContainer(404, "Github user not found")
+								new ErrorContainer(HttpStatus.NOT_FOUND.value(), "Github user not found")
 						)
 				);
 	}

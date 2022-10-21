@@ -6,12 +6,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import lombok.NoArgsConstructor;
 
 import javax.annotation.Generated;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
 		"id",
@@ -254,6 +256,11 @@ public class Repo {
 	private String defaultBranch;
 	@JsonIgnore
 	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+	public Repo(final String name, final RepoOwner owner) {
+		this.name = name;
+		this.owner = owner;
+	}
 
 	@JsonProperty("id")
 	public Integer getId() {
