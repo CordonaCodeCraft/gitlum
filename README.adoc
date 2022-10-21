@@ -18,7 +18,6 @@ Soon Gitlum was born - a ##**Git**##Hub application for Cik##**lum**## teams.
 
 . https://drive.google.com/file/d/1j0LXyeLcMsDrXvFvnt25a0jbFw5QDoOW/view?usp=sharing[Backend Dev Task]
 . https://docs.github.com/en/rest[Backing API]
-. https://github.com/CordonaCodeCraft/gitlum[Dev task GitHub repository]
 
 == Technology Stack
 
@@ -36,7 +35,6 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 
 === Spring dependencies
 
-. https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web[Spring Boot Starter Web]
 . https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html[Spring Boot Starter Webflux]
 . https://spring.io/projects/spring-cloud-sleuth[Spring Boot Starter Sleuth]
 . https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/html/boot-features-testing.html[Spring Boot Starter Test]
@@ -135,12 +133,11 @@ Since this application is an http://theleanstartup.com[MVP], we implemented a si
 ``localhost:8080/api/v1/git-repositories/get
 ``
 
-The endpoint is expecting a JSON payload in the request's body, containing the name of a GitHub user:
+The endpoint expects a mandatory parameter for the GitHub user.
 
-[source,Json]
-----
-{"gitUser":"your-github-user"}
-----
+You can leverage the pagination, supported by the backing API, and pass parameters for a page number and results to be displayed per page.
+If you do not provide such parameters - the application resolves them to default values, as declared in the application.yml file.
+
 
 Upon success (GitHub user is present), the endpoint returns his public not forked repositories and their branches, formatted per the business requirements:
 
@@ -321,7 +318,7 @@ If the request payload is not in the required format, the application will handl
 
 {
     "statusCode": 406,
-    "message": "Invalid content type (XML) provided. JSON content type required"
+    "message": "Invalid content type (XML) provided."
 }
 ----
 
@@ -379,12 +376,12 @@ To consult with the documentation:
 
 Start the application
 
-In your favorite web browser open the http://localhost:8080/docApi/swagger-ui.html[*Swagger UI*]
+In your favorite web browser open the http://localhost:8080/swagger-doc/swagger-ui.html[*Swagger UI*]
 
 image::readmeassets/SwaggerUIScreenshot.jpg[]
 
 You can consume the Open API documentation of the project as JSON.
-Simply perform http://localhost:8080/v2/api-docs[GET request] in your favorite REST client.
+Simply perform http://localhost:8080/swagger-doc/v3/api-docs[GET request] in your favorite REST client.
 We recommend https://www.postman.com[Postman].
 
 image::readmeassets/PostmanUIScreenshot.jpg[]
@@ -415,11 +412,6 @@ As a further mandatory improvement, the author would split the project into sepa
 
 - Represent the seeds of future microservices
 
-
-=== Almost reactive
-
-The `RestTemplate` is considered deprecated. Hence `WebClient` is used to consume the backing GitHub API, but the application uses Tomcat and is not considered non-blocking from end-to-end.
-
 === Not exactly unit tests
 
 The use cases and the controller are thoroughly tested but in a pure integration tests fashion. These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
@@ -429,6 +421,13 @@ This direct and non-optimal approach was favored due to the limited time for imp
 For an actual production project, the author would prefer to utilize https://www.baeldung.com/bdd-mockito[BDDMockito] to sparingly mock the WebClient's responses and return collections of faked objects (with https://www.baeldung.com/java-faker[JavaFaker]).
 
 == Additional resources
+
+=== Learn Spring reactive
+- https://www.youtube.com/watch?v=1F10gr2pbvQ[Josh Long's Reactive Spring GOTO 2019 talk]
+- https://www.youtube.com/playlist?list=PLEocw3gLFc8W-w8QZbM8f955StBEiQjJk[Laur Spilca's Spring Reactive lessons]
+- https://www.youtube.com/watch?v=IZ2SoXUiS7M&t=18s[Guide to "Reactive" for Spring MVC Developers]
+- https://www.youtube.com/watch?v=0rnMIueRKNU[Spring Reactive Do’s and Don’ts]
+
 
 === Recommended reading
 - https://peternixey.com/post/83510597580/how-to-be-a-great-software-developer[How to be a great software developer]
