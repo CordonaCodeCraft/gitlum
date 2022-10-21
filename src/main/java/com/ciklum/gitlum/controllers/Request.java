@@ -1,4 +1,4 @@
-package com.ciklum.gitlum.controller;
+package com.ciklum.gitlum.controllers;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
