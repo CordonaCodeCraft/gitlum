@@ -11,14 +11,14 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 ext {
-    mapstructVersion = '1.5.2.Final'
+    mapstructVersion = '1.5.3.Final'
     assertJVersion = '3.23.1'
 }
 
 dependencies {
     implementation "org.springframework.boot:spring-boot-starter-webflux"
     implementation "io.springfox:springfox-swagger2:3.0.0"
-    implementation "io.springfox:springfox-swagger-ui:2.9.2"
+    implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.12'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth:3.1.4'
     implementation "org.mapstruct:mapstruct:$mapstructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"

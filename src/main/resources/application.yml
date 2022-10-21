@@ -1,6 +1,13 @@
 spring:
   application:
     name: gitlum
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+    path: "/swagger-doc/v3/api-docs"
+  swagger-ui:
+    path: "/swagger-doc/swagger-ui.html"
 constants:
   git-base-url: "https://api.github.com"
   user-repositories-uri: "/users/{user}/repos"
