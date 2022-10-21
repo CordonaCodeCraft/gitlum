@@ -1,7 +1,7 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.annotations.UseCase;
-import com.ciklum.gitlum.controller.Request;
+import com.ciklum.gitlum.controllers.Request;
 import com.ciklum.gitlum.domain.model.dto.BranchDTO;
 import com.ciklum.gitlum.domain.model.dto.RepoDTO;
 import com.ciklum.gitlum.domain.model.git.Branch;
