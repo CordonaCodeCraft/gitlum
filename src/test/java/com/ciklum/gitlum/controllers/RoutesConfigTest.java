@@ -70,7 +70,7 @@ class RoutesConfigTest extends IntegrationTest {
 	public void givenNonExistingUserWillReturnErrorMessage() {
 		// given
 		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, NON_EXISTING_USER);
-		final var expectedStatus = "404";
+		final var expectedStatusCode = "404";
 		final var expectedMessage = "Github user not found";
 		//then
 		testClient
@@ -79,7 +79,27 @@ class RoutesConfigTest extends IntegrationTest {
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
-				.jsonPath("httpStatus").isEqualTo(expectedStatus)
+				.jsonPath("httpStatus").isEqualTo(expectedStatusCode)
 				.jsonPath("message").isEqualTo(expectedMessage);
 	}
+
+	@Test
+	@DisplayName("Given invalid header will return error message")
+	public void givenInvalidHeaderWillReturnErrorMessage() {
+		// given
+		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
+		final var expectedStatusCode = "406";
+		final var expectedMessage = "Invalid MediaType";
+		//then
+		testClient
+				.get()
+				.uri(uri)
+				.header("Accept", "application/xml")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("httpStatus").isEqualTo(expectedStatusCode)
+				.jsonPath("message").isEqualTo(expectedMessage);
+	}
+
 }
