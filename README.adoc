@@ -307,7 +307,17 @@ If GitHub user is not present, the application will handle the exception accordi
 ----
 {
     "httpStatus": 404,
-    "message": "Github user with username invalid-github-user not found"
+    "message": "Github user <invalid-user> not found"
+}
+----
+
+If GitHub user query parameter is empty, the application will handle the exception accordingly and will return Json object as follows:
+
+[source,Json]
+----
+{
+    "httpStatus": 400,
+    "message": "Github user not provided"
 }
 ----
 
@@ -318,24 +328,28 @@ If the request payload is not in the required format, the application will handl
 
 {
     "statusCode": 406,
-    "message": "Invalid content type (XML) provided."
+    "message": "Invalid media type: application/xml"
 }
 ----
 
-#*Important*#:
+== Non-authenticated and authenticated requests
 
+=== Non-authenticated requests
 When consuming our API, consider that the backing GitHub API sets https://docs.github.com/en/rest/rate-limit[rate limits] for the requests you can execute per one astronomical hour (60 minutes).
 
 Suppose you query GitHub users with many public non-forked repositories with many branches.
 You can consume your limit quickly or even fail to get the expected result with a `403` error.
 
-When you exceed your rate limit, you will enjoy the bellow log output in your application:
+When you exceed your rate limit, the application responds with
 
-image::readmeassets/RateLimitLogErrorScreenshot.jpg[]
+[source,Json]
+----
 
-In the terminal you can also confirm, that your rate limit is expired:
-
-image::readmeassets/TerminalRateLimitExceededScreenshot.jpg[]
+{
+    "statusCode": 403,
+    "message": "Request limit exceeded"
+}
+----
 
 You can check your rate limits with the following terminal command:
 
@@ -368,6 +382,43 @@ x-ratelimit-resource: core
 x-ratelimit-used: 60
 content-length: 277
 x-github-request-id: FABC:912C:195465E:19C4BF6:633D57BB
+----
+=== Authenticated requests
+
+You can provide a token generated in your GitHub account, increasing the rate limits to 5 000 per hour.
+Go to "Settings" from your GitHub account:
+
+image::readmeassets/SettingsScreenshot.png[]
+
+Then select "Developer Settings"
+
+image::readmeassets/DeveloperSettingsScreenshot.png[]
+
+Then select "Tokens"
+
+image::readmeassets/TokensScreenshot.png[]
+
+Then select "Generate new token (classic)"
+
+image::readmeassets/GenerateTokenScreenshot.png[]
+
+Then select your properties. To increase your rate limits when accessing public repositories, you can choose only the property as shown below:
+
+image::readmeassets/TokenPropertiesScreenshot.png[]
+
+You can provide the token in the headers of your request as shown below with Postman:
+
+image::readmeassets/AuthorizationHeaderScreenshot.png[]
+
+If you provide a wrong token or the token provided is expired or depleted, the application will respond with
+
+[source,Json]
+----
+
+{
+    "statusCode": 401,
+    "message": "Wrong credentials"
+}
 ----
 
 == Swagger
@@ -432,6 +483,7 @@ For an actual production project, the author would prefer to utilize https://www
 - https://www.youtube.com/playlist?list=PLEocw3gLFc8W-w8QZbM8f955StBEiQjJk[Laur Spilca's Spring Reactive lessons]
 - https://www.youtube.com/watch?v=IZ2SoXUiS7M&t=18s[Guide to "Reactive" for Spring MVC Developers]
 - https://www.youtube.com/watch?v=0rnMIueRKNU[Spring Reactive Do’s and Don’ts]
+- https://www.youtube.com/watch?v=S5tLVsvbHBg&t=5558s[Exception Handling in Functional and Reactive Programming by Venkat Subramaniam]
 
 === Recommended reading
 
