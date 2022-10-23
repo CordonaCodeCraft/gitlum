@@ -2,6 +2,7 @@ package com.ciklum.gitlum.controllers;
 
 import com.ciklum.gitlum.domain.usecase.BuildGitRepositories;
 import com.ciklum.gitlum.exception.ErrorContainer;
+import com.ciklum.gitlum.exception.GithubUserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,9 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.MediaType.APPLICATION_XML;
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 
 
@@ -36,27 +35,19 @@ public class GitRepositoriesHandler {
 	private final BuildGitRepositories buildGitRepositories;
 
 	public Mono<ServerResponse> getGitRepositories(final ServerRequest source) {
-		return isInvalidRequest(source) ? processInvalid() : processSource(source);
-	}
-
-	private static boolean isInvalidRequest(final ServerRequest source) {
-		return source.headers().accept().contains(APPLICATION_XML);
-	}
-
-	private static Mono<ServerResponse> processInvalid() {
-		return ok().bodyValue(new ErrorContainer(NOT_ACCEPTABLE.value(), "Invalid MediaType"));
-	}
-
-	private Mono<ServerResponse> processSource(final ServerRequest source) {
 		final var request = buildRequest(source);
 		log.info("Querying repositories and branches for user {}", request.gitUser());
 		return buildGitRepositories
 				.invoke(request)
 				.collectList()
 				.flatMap(product -> ok().bodyValue(product))
-				.onErrorResume(
+				.onErrorMap(
 						WebClientResponseException.class,
-						e -> ok().bodyValue(new ErrorContainer(NOT_FOUND.value(), "Github user not found"))
+						e -> new GithubUserNotFoundException(String.format("Github user %s not found", request.gitUser()))
+				)
+				.onErrorResume(
+						GithubUserNotFoundException.class,
+						e -> ok().bodyValue(new ErrorContainer(NOT_FOUND.value(), e.getMessage()))
 				);
 	}
 

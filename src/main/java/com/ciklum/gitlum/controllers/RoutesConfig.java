@@ -9,11 +9,16 @@ import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
+import org.springframework.web.reactive.function.server.RequestPredicate;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_XML;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
+import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
@@ -28,7 +33,7 @@ public class RoutesConfig {
 	@RouterOperation(
 			method = GET,
 			path = "/api/v1/git-repositories/get",
-			produces = {MediaType.APPLICATION_JSON_VALUE},
+			produces = {APPLICATION_JSON_VALUE},
 			beanClass = GitRepositoriesHandler.class,
 			beanMethod = "getGitRepositories",
 			operation = @Operation(
@@ -43,9 +48,17 @@ public class RoutesConfig {
 			)
 	)
 	public RouterFunction<ServerResponse> getGitRepositories(final GitRepositoriesHandler gitRepositoriesHandler) {
-		return route()
-				.GET(baseURL + getGitRepositoriesURI, gitRepositoriesHandler::getGitRepositories)
-				.build();
+		final RequestPredicate uri = GET(baseURL + getGitRepositoriesURI);
+		final RequestPredicate mediaType = accept(APPLICATION_JSON);
+		return route(uri.and(mediaType), gitRepositoriesHandler::getGitRepositories);
+	}
+
+
+	@Bean
+	public RouterFunction<ServerResponse> handleInvalidMediaType(final InvalidMediaTypeErrorHandler invalidMediaTypeErrorHandler) {
+		final RequestPredicate uri = GET(baseURL + getGitRepositoriesURI);
+		final RequestPredicate mediaType = accept(APPLICATION_XML);
+		return route(uri.and(mediaType), invalidMediaTypeErrorHandler::handleInvalidMediaTypeError);
 	}
 
 }

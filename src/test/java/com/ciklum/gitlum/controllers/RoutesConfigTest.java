@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import static org.springframework.http.MediaType.APPLICATION_XML;
+
 class RoutesConfigTest extends IntegrationTest {
 
 	@Value("${constants.git-repositories-base-url}")
@@ -71,7 +73,7 @@ class RoutesConfigTest extends IntegrationTest {
 		// given
 		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, NON_EXISTING_USER);
 		final var expectedStatusCode = "404";
-		final var expectedMessage = "Github user not found";
+		final var expectedMessage = String.format("Github user %s not found", NON_EXISTING_USER);
 		//then
 		testClient
 				.get()
@@ -84,12 +86,12 @@ class RoutesConfigTest extends IntegrationTest {
 	}
 
 	@Test
-	@DisplayName("Given invalid header will return error message")
-	public void givenInvalidHeaderWillReturnErrorMessage() {
+	@DisplayName("Given invalid media type will return 404 error message")
+	public void givenInvalidMediaTypeWillReturn404ErrorMessage() {
 		// given
 		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
 		final var expectedStatusCode = "406";
-		final var expectedMessage = "Invalid MediaType";
+		final var expectedMessage = String.format("Invalid media type: %s", APPLICATION_XML);
 		//then
 		testClient
 				.get()
