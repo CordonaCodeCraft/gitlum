@@ -2,7 +2,8 @@
 
 == Backstory
 
-Volodymyr, a delivery manager, recently joined https://www.ciklum.com[Ciklum] and wants to track his teammates' public GitHub repositories to improve the delivery rates of his team. It appears that some developers are contributing to projects outside Ciklum during business hours.
+Volodymyr, a delivery manager, recently joined https://www.ciklum.com[Ciklum] and wants to track his teammates' public GitHub repositories to improve the delivery rates of his team.
+It appears that some developers are contributing to projects outside Ciklum during business hours.
 
 GitHub is too verbose when serving data about repositories and branches.
 
@@ -137,7 +138,6 @@ The endpoint expects a mandatory parameter for the GitHub user.
 
 You can leverage the pagination, supported by the backing API, and pass parameters for a page number and results to be displayed per page.
 If you do not provide such parameters - the application resolves them to default values, as declared in the application.yml file.
-
 
 Upon success (GitHub user is present), the endpoint returns his public not forked repositories and their branches, formatted per the business requirements:
 
@@ -326,7 +326,8 @@ If the request payload is not in the required format, the application will handl
 
 When consuming our API, consider that the backing GitHub API sets https://docs.github.com/en/rest/rate-limit[rate limits] for the requests you can execute per one astronomical hour (60 minutes).
 
-Suppose you query GitHub users with many public non-forked repositories with many branches. You can consume your limit quickly or even fail to get the expected result with a `403` error.
+Suppose you query GitHub users with many public non-forked repositories with many branches.
+You can consume your limit quickly or even fail to get the expected result with a `403` error.
 
 When you exceed your rate limit, you will enjoy the bellow log output in your application:
 
@@ -345,6 +346,7 @@ curl -I https://api.github.com/users/your-github-user-name
 
 Expect the following terminal output:
 [source,bash]
+
 ----
 HTTP/2 403
 date: Wed, 05 Oct 2022 10:08:59 GMT
@@ -392,7 +394,8 @@ image::readmeassets/PostmanUIScreenshot.jpg[]
 
 The project's author is passionate about clean architecture, propagated by https://en.wikipedia.org/wiki/Robert_C._Martin[Uncle Bob] in his https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164[book], and the implementation of various services as https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html[use cases] and favoring https://medium.com/geekculture/composition-over-inheritance-7faed1628595[composition over inheritance].
 
-This project is a demo of such an implementation. The author firmly believes that it enables the single responsibility principle on the extreme and proves that such a code base developed by this design pattern is a pleasure to test.
+This project is a demo of such an implementation.
+The author firmly believes that it enables the single responsibility principle on the extreme and proves that such a code base developed by this design pattern is a pleasure to test.
 
 === Single module project
 
@@ -414,7 +417,8 @@ As a further mandatory improvement, the author would split the project into sepa
 
 === Not exactly unit tests
 
-The use cases and the controller are thoroughly tested but in a pure integration tests fashion. These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
+The use cases and the controller are thoroughly tested but in a pure integration tests fashion.
+These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
 
 This direct and non-optimal approach was favored due to the limited time for implementing the assignment.
 
@@ -423,19 +427,21 @@ For an actual production project, the author would prefer to utilize https://www
 == Additional resources
 
 === Learn Spring reactive
+
 - https://www.youtube.com/watch?v=1F10gr2pbvQ[Josh Long's Reactive Spring GOTO 2019 talk]
 - https://www.youtube.com/playlist?list=PLEocw3gLFc8W-w8QZbM8f955StBEiQjJk[Laur Spilca's Spring Reactive lessons]
 - https://www.youtube.com/watch?v=IZ2SoXUiS7M&t=18s[Guide to "Reactive" for Spring MVC Developers]
 - https://www.youtube.com/watch?v=0rnMIueRKNU[Spring Reactive Do’s and Don’ts]
 
-
 === Recommended reading
+
 - https://peternixey.com/post/83510597580/how-to-be-a-great-software-developer[How to be a great software developer]
 - https://www.goodreads.com/book/show/3735293-clean-code[Clean code]
 - https://echelonfront.com/extreme-ownership/[Extreme ownership]
 - https://gettingthingsdone.com/what-is-gtd/[Getting things done]
 
 === Recommended watching
+
 - https://www.youtube.com/watch?v=EZ05e7EMOLM[TDD, Where Did It All Go Wrong]
 - https://www.youtube.com/watch?v=TBuIGBCF9jc[Make your bed]
 - https://www.youtube.com/watch?v=IdTMDpizis8[Good]

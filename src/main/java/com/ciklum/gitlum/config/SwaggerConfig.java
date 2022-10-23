@@ -14,7 +14,7 @@ import static springfox.documentation.spi.DocumentationType.SWAGGER_2;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfig  {
+public class SwaggerConfig {
 
 	public static final String TITLE = "Gitlum - Ciklum application for GitHub";
 	public static final String DESCRIPTION =

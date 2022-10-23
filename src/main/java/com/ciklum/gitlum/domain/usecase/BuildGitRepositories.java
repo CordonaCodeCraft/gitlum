@@ -28,7 +28,7 @@ public class BuildGitRepositories {
 	public Flux<RepoDTO> invoke(final Request request) {
 		return getRepositories
 				.invoke(request)
-				.flatMap(r ->  repoToDTO(r, request.token()));
+				.flatMap(r -> repoToDTO(r, request.token()));
 	}
 
 	private Mono<RepoDTO> repoToDTO(final Repo source, final String token) {

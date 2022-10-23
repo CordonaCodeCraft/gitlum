@@ -5,10 +5,9 @@ import com.ciklum.gitlum.domain.model.git.Repo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel = "spring")
 public interface RepoMapper {
 	@Mapping(source = "name", target = "repositoryName")
 	@Mapping(source = "owner.login", target = "ownerLogin")
 	RepoDTO toDTO(final Repo source);
-
 }

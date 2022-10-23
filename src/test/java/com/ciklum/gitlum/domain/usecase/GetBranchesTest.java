@@ -37,24 +37,24 @@ class GetBranchesTest extends IntegrationTest {
 		// Given
 		final var existingUser = new RepoOwner(FIRST_EXISTING_USER);
 		final var nonExistingRepo = new Repo(NON_EXISTING_REPO, existingUser);
-        // Then
-        assertThatThrownBy(
+		// Then
+		assertThatThrownBy(
 				() -> subject.invoke(nonExistingRepo, VALID_TOKEN).blockFirst()
 		)
 				.isInstanceOf(WebClientResponseException.NotFound.class);
 	}
 
-    @Test
-    @DisplayName("Given non existing user will throw 404 error")
-    public void givenNonExistingUserWillThrowAnError() {
-        // Given
-        final var nonExistingUser = new RepoOwner(NON_EXISTING_USER);
-        final var existingRepo = new Repo(FIRST_EXISTING_REPO, nonExistingUser);
-        // Then
-        assertThatThrownBy(
-                () -> subject.invoke(existingRepo, VALID_TOKEN).blockFirst()
-        )
-                .isInstanceOf(WebClientResponseException.NotFound.class);
-    }
+	@Test
+	@DisplayName("Given non existing user will throw 404 error")
+	public void givenNonExistingUserWillThrowAnError() {
+		// Given
+		final var nonExistingUser = new RepoOwner(NON_EXISTING_USER);
+		final var existingRepo = new Repo(FIRST_EXISTING_REPO, nonExistingUser);
+		// Then
+		assertThatThrownBy(
+				() -> subject.invoke(existingRepo, VALID_TOKEN).blockFirst()
+		)
+				.isInstanceOf(WebClientResponseException.NotFound.class);
+	}
 
 }
