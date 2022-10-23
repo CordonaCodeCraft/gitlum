@@ -1,5 +1,6 @@
-package com.ciklum.gitlum.controllers;
+package com.ciklum.gitlum.routes.handlers;
 
+import com.ciklum.gitlum.routes.dto.Request;
 import com.ciklum.gitlum.domain.usecase.BuildGitRepositories;
 import com.ciklum.gitlum.exception.ErrorContainer;
 import com.ciklum.gitlum.exception.GithubUserNotFoundException;

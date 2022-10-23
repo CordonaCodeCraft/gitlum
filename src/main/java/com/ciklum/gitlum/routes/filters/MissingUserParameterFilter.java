@@ -1,4 +1,4 @@
-package com.ciklum.gitlum.controllers;
+package com.ciklum.gitlum.routes.filters;
 
 import com.ciklum.gitlum.exception.ErrorContainer;
 import lombok.extern.slf4j.Slf4j;

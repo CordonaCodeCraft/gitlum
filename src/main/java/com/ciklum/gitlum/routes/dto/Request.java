@@ -1,4 +1,4 @@
-package com.ciklum.gitlum.controllers;
+package com.ciklum.gitlum.routes.dto;
 
 public record Request(
 		String gitUser,

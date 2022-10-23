@@ -1,4 +1,4 @@
-package com.ciklum.gitlum.controllers;
+package com.ciklum.gitlum.routes;
 
 import com.ciklum.gitlum.IntegrationTest;
 import org.junit.jupiter.api.BeforeEach;

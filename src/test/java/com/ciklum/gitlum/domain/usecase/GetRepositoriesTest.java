@@ -1,7 +1,7 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.IntegrationTest;
-import com.ciklum.gitlum.controllers.Request;
+import com.ciklum.gitlum.routes.dto.Request;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

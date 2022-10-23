@@ -1,5 +1,8 @@
-package com.ciklum.gitlum.controllers;
+package com.ciklum.gitlum.routes.config;
 
+import com.ciklum.gitlum.routes.filters.InvalidMediaTypeFilter;
+import com.ciklum.gitlum.routes.filters.MissingUserParameterFilter;
+import com.ciklum.gitlum.routes.handlers.GitRepositoriesHandler;
 import com.ciklum.gitlum.domain.model.dto.RepoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
