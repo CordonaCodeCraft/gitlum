@@ -25,7 +25,7 @@ class GetBranchesTest extends IntegrationTest {
 		final var existingRepo = new Repo(FIRST_EXISTING_REPO, existingUser);
 		final var expectedBranchesCount = 12;
 		// When
-		final var branches = subject.invoke(existingRepo).collectList().block();
+		final var branches = subject.invoke(existingRepo, VALID_TOKEN).collectList().block();
 		// Then
 		assert branches != null;
 		assertThat(branches.size()).isEqualTo(expectedBranchesCount);
@@ -39,9 +39,9 @@ class GetBranchesTest extends IntegrationTest {
 		final var nonExistingRepo = new Repo(NON_EXISTING_REPO, existingUser);
         // Then
         assertThatThrownBy(
-				() -> subject.invoke(nonExistingRepo).blockFirst()
+				() -> subject.invoke(nonExistingRepo, VALID_TOKEN).blockFirst()
 		)
-				.isInstanceOf(WebClientResponseException.class);
+				.isInstanceOf(WebClientResponseException.NotFound.class);
 	}
 
     @Test
@@ -52,9 +52,9 @@ class GetBranchesTest extends IntegrationTest {
         final var existingRepo = new Repo(FIRST_EXISTING_REPO, nonExistingUser);
         // Then
         assertThatThrownBy(
-                () -> subject.invoke(existingRepo).blockFirst()
+                () -> subject.invoke(existingRepo, VALID_TOKEN).blockFirst()
         )
-                .isInstanceOf(WebClientResponseException.class);
+                .isInstanceOf(WebClientResponseException.NotFound.class);
     }
 
 }

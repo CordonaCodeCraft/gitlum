@@ -17,6 +17,11 @@ class RoutesConfigTest extends IntegrationTest {
 	private String subjectURL;
 	@Value("${constants.get-git-repositories-uri}")
 	private String subjectURI;
+	@Value("${constants.authorization-header}")
+	private String authorizationHeader;
+	@Value("${constants.token-prefix}")
+	private String tokenPrefix;
+
 	@Autowired private WebTestClient testClient;
 	@Autowired private ApplicationContext applicationContext;
 
@@ -35,6 +40,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
+				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -57,6 +63,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
+				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -68,8 +75,8 @@ class RoutesConfigTest extends IntegrationTest {
 	}
 
 	@Test
-	@DisplayName("Given non-existing user will return error message")
-	public void givenNonExistingUserWillReturnErrorMessage() {
+	@DisplayName("Given non-existing user will return 404 error message")
+	public void givenNonExistingUserWillReturn404ErrorMessage() {
 		// given
 		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, NON_EXISTING_USER);
 		final var expectedStatusCode = "404";
@@ -78,6 +85,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
+				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -86,8 +94,8 @@ class RoutesConfigTest extends IntegrationTest {
 	}
 
 	@Test
-	@DisplayName("Given invalid media type will return 404 error message")
-	public void givenInvalidMediaTypeWillReturn404ErrorMessage() {
+	@DisplayName("Given invalid media type will return 406 error message")
+	public void givenInvalidMediaTypeWillReturn406ErrorMessage() {
 		// given
 		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
 		final var expectedStatusCode = "406";
@@ -96,7 +104,28 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
+				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
 				.header("Accept", "application/xml")
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("httpStatus").isEqualTo(expectedStatusCode)
+				.jsonPath("message").isEqualTo(expectedMessage);
+	}
+
+	@Test
+	@DisplayName("Given wrong credentials will return 401 error message")
+	public void givenWrongCredentialsWillReturn401ErrorMessage() {
+		// given
+		final var invalidToken = "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sdsfdfdsdsddsfsdsdsdf";
+		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
+		final var expectedStatusCode = "401";
+		final var expectedMessage = "Wrong credentials";
+		//then
+		testClient
+				.get()
+				.uri(uri)
+				.header(authorizationHeader, tokenPrefix + invalidToken)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()

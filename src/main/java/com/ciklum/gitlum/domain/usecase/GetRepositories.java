@@ -5,8 +5,11 @@ import com.ciklum.gitlum.controllers.Request;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+
+import java.util.function.Consumer;
 
 @UseCase
 @RequiredArgsConstructor
@@ -31,12 +34,20 @@ public class GetRepositories {
 								.queryParam("per_page", request.resultsPerPage())
 								.build(request.gitUser())
 				)
+				.headers(setHeaders(request))
 				.retrieve()
 				.bodyToFlux(Repo.class)
 				.filter(GetRepositories::isNotForkedRepository);
 	}
 
-	public static boolean isNotForkedRepository(final Repo repo) {
+	private static Consumer<HttpHeaders> setHeaders(final Request request) {
+		return request.token().isEmpty()
+				? HttpHeaders::clearContentHeaders
+				: HttpHeaders -> HttpHeaders.setBearerAuth(request.token());
+	}
+
+	private static boolean isNotForkedRepository(final Repo repo) {
 		return !repo.getFork();
 	}
+
 }

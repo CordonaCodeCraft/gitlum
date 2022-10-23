@@ -20,7 +20,7 @@ class GetRepositoriesTest extends IntegrationTest {
 	public void givenExistingUserWillReturnNonForkedPublicRepositories() {
 		// Given
 		final var expectedRepositoriesCount = 1;
-		final var validRequest = new Request(FIRST_EXISTING_USER, 1, 3);
+		final var validRequest = new Request(FIRST_EXISTING_USER, 1, 3, VALID_TOKEN);
 		// When
 		final var repositories = subject
 				.invoke(validRequest)
@@ -38,14 +38,14 @@ class GetRepositoriesTest extends IntegrationTest {
 	@DisplayName("Given non existing user will throw 404 error")
 	public void givenNonExistingUserWillThrowAnError() {
 		// Given
-		final var invalidRequest = new Request(NON_EXISTING_USER, 1, 3);
+		final var invalidRequest = new Request(NON_EXISTING_USER, 1, 3, VALID_TOKEN);
 		// Then
 		assertThatThrownBy(
 				() -> subject
 						.invoke(invalidRequest)
 						.blockFirst()
 		)
-				.isInstanceOf(WebClientResponseException.class);
+				.isInstanceOf(WebClientResponseException.NotFound.class);
 	}
 
 	private boolean isNotForkedRepository(final Repo repo) {

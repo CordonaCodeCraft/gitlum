@@ -5,8 +5,11 @@ import com.ciklum.gitlum.domain.model.git.Branch;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+
+import java.util.function.Consumer;
 
 @UseCase
 @RequiredArgsConstructor
@@ -19,7 +22,7 @@ public class GetBranches {
 
 	private final WebClient.Builder webClientBuilder;
 
-	public Flux<Branch> invoke(final Repo source) {
+	public Flux<Branch> invoke(final Repo source, final String token) {
 		return webClientBuilder
 				.baseUrl(gitBaseURL)
 				.build()
@@ -29,7 +32,15 @@ public class GetBranches {
 								.path(repositoryBranchesURI)
 								.build(source.getOwner().getLogin(), source.getName())
 				)
+				.headers(setHeaders(token))
 				.retrieve()
 				.bodyToFlux(Branch.class);
 	}
+
+	private static Consumer<HttpHeaders> setHeaders(final String token) {
+		return token.isEmpty()
+				? HttpHeaders::clearContentHeaders
+				: HttpHeaders -> HttpHeaders.setBearerAuth(token);
+	}
+
 }

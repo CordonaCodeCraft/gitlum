@@ -18,4 +18,6 @@ constants:
   default-results-per-page: "3"
   user-request-param-value: "user"
   page-request-param-value: "page"
-  page-size-result-request-param-value: "page"
+  page-size-result-request-param-value: "per_page"
+  authorization-header: "Authorization"
+  token-prefix: "Bearer: "

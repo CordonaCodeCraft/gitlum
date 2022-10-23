@@ -28,12 +28,12 @@ public class BuildGitRepositories {
 	public Flux<RepoDTO> invoke(final Request request) {
 		return getRepositories
 				.invoke(request)
-				.flatMap(this::repoToDTO);
+				.flatMap(r ->  repoToDTO(r, request.token()));
 	}
 
-	private Mono<RepoDTO> repoToDTO(final Repo source) {
+	private Mono<RepoDTO> repoToDTO(final Repo source, final String token) {
 		final var dto = Mono.just(repoMapper.toDTO(source));
-		final var branches = branchesToCollection(getBranches.invoke(source));
+		final var branches = branchesToCollection(getBranches.invoke(source, token));
 		return dto
 				.zipWith(branches)
 				.map(BuildGitRepositories::asFinalProduct);
