@@ -20,7 +20,7 @@ class BuildGitRepositoriesTest extends IntegrationTest {
 	@DisplayName("Produces result as expected")
 	public void producesResultAsExpected() {
 		// Given
-		final var request = new Request(FIRST_EXISTING_USER, 1, 2, VALID_TOKEN);
+		final var request = new Request(FIRST_EXISTING_USER, 1, 2, TOKEN);
 		final var expectedRepositoryCount = 1;
 		final var expectedBranchCount = 12;
 		final var expectedUserLogin = "Bisu-bg";
@@ -45,7 +45,7 @@ class BuildGitRepositoriesTest extends IntegrationTest {
 	@DisplayName("Given non existing user will throw 404 error")
 	public void givenNonExistingUserWillThrowAnError() {
 		// Given
-		final var request = new Request(NON_EXISTING_USER, 1, 2, VALID_TOKEN);
+		final var request = new Request(NON_EXISTING_USER, 1, 2, TOKEN);
 		// Then
 		assertThatThrownBy(
 				() -> subject.invoke(request).blockFirst()

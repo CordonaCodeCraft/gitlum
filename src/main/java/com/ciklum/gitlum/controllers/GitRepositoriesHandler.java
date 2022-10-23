@@ -52,7 +52,6 @@ public class GitRepositoriesHandler {
 				.invoke(request)
 				.collectList()
 				.flatMap(product -> ok().bodyValue(product))
-				.log()
 				.onErrorMap(
 						WebClientResponseException.NotFound.class,
 						e -> new GithubUserNotFoundException(String.format("Github user %s not found", request.gitUser()))

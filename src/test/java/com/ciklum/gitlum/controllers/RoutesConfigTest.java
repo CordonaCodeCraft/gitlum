@@ -40,7 +40,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
+				.header(authorizationHeader, tokenPrefix + TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -63,7 +63,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
+				.header(authorizationHeader, tokenPrefix + TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -85,7 +85,25 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
+				.header(authorizationHeader, tokenPrefix + TOKEN)
+				.exchange()
+				.expectStatus().isOk()
+				.expectBody()
+				.jsonPath("httpStatus").isEqualTo(expectedStatusCode)
+				.jsonPath("message").isEqualTo(expectedMessage);
+	}
+
+	@Test
+	@DisplayName("Given user not provided will return 400 error")
+	public void givenUserNotProvidedWillReturn400ErrorMessage() {
+		// given
+		final var uri = String.format("/%s/%s", subjectURL, subjectURI);
+		final var expectedStatusCode = "400";
+		final var expectedMessage = "Github user not provided";
+		//then
+		testClient
+				.get()
+				.uri(uri)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -104,7 +122,7 @@ class RoutesConfigTest extends IntegrationTest {
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + VALID_TOKEN)
+				.header(authorizationHeader, tokenPrefix + TOKEN)
 				.header("Accept", "application/xml")
 				.exchange()
 				.expectStatus().isOk()
