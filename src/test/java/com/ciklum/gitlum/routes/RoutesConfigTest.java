@@ -6,11 +6,11 @@ import com.ciklum.gitlum.config.RequestProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import static org.springframework.http.MediaType.APPLICATION_XML;
 
 class RoutesConfigTest extends IntegrationTest {
 
@@ -20,7 +20,7 @@ class RoutesConfigTest extends IntegrationTest {
 	@Autowired private ApplicationContext applicationContext;
 
 	@BeforeEach
-	public void setupWebClient() {
+	public void beforeEach() {
 		testClient = WebTestClient.bindToApplicationContext(applicationContext).build();
 	}
 
@@ -125,9 +125,10 @@ class RoutesConfigTest extends IntegrationTest {
 				.jsonPath("message").isEqualTo(expectedMessage);
 	}
 
-	@Test
+	@ParameterizedTest(name = "({index}) Invalid media type = ''{0}''")
+	@ValueSource(strings = {"application/xml"})
 	@DisplayName("Given invalid media type will return 406 error message")
-	public void givenInvalidMediaTypeWillReturn406ErrorMessage() {
+	public void givenInvalidMediaTypeWillReturn406ErrorMessage(final String invalidMediaType) {
 		// given
 		final var uri = String.format("/%s/%s?user=%s",
 				endpointProperties.getBaseUrl(),
@@ -135,13 +136,13 @@ class RoutesConfigTest extends IntegrationTest {
 				FIRST_EXISTING_USER
 		);
 		final var expectedStatusCode = "406";
-		final var expectedMessage = String.format("Invalid media type: %s", APPLICATION_XML);
+		final var expectedMessage = String.format("Invalid media type: %s", invalidMediaType);
 		//then
 		testClient
 				.get()
 				.uri(uri)
 				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + TOKEN)
-				.header("Accept", "application/xml")
+				.header("Accept", invalidMediaType)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()

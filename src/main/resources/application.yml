@@ -24,3 +24,7 @@ gitlum:
     results-per-page-param-value: "per_page"
     authorization-header-key: "Authorization"
     token-prefix: "Bearer: "
+    valid-media-types:
+      - "application/json"
+      - "application/*"
+      - "*/*"
