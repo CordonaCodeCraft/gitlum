@@ -8,16 +8,19 @@ springdoc:
     path: "/swagger-doc/v3/api-docs"
   swagger-ui:
     path: "/swagger-doc/swagger-ui.html"
-constants:
-  git-base-url: "https://api.github.com"
-  user-repositories-uri: "/users/{user}/repos"
-  repository-branches-uri: "/repos/{user}/{repo}/branches"
-  git-repositories-base-url: "api/v1/git-repositories"
-  get-git-repositories-uri: "/get"
-  default-page-number: "1"
-  default-results-per-page: "3"
-  user-request-param-value: "user"
-  page-request-param-value: "page"
-  page-size-result-request-param-value: "per_page"
-  authorization-header: "Authorization"
-  token-prefix: "Bearer: "
+gitlum:
+  git:
+    base-url: "https://api.github.com"
+    repositories-uri: "/users/{user}/repos"
+    branches-uri: "/repos/{user}/{repo}/branches"
+  endpoints:
+    base-url: "api/v1/git-repositories"
+    get-repositories: "/get"
+  request:
+    default-page-number: "1"
+    default-results-per-page: "3"
+    user-param-key: "user"
+    page-number-param-key: "page"
+    results-per-page-param-value: "per_page"
+    authorization-header-key: "Authorization"
+    token-prefix: "Bearer: "

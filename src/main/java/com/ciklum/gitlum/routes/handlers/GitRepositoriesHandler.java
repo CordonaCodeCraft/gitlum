@@ -1,5 +1,6 @@
 package com.ciklum.gitlum.routes.handlers;
 
+import com.ciklum.gitlum.config.RequestProperties;
 import com.ciklum.gitlum.domain.usecase.BuildGitRepositories;
 import com.ciklum.gitlum.exception.ErrorContainer;
 import com.ciklum.gitlum.exception.GithubUserNotFoundException;
@@ -8,7 +9,6 @@ import com.ciklum.gitlum.exception.WrongCredentialsException;
 import com.ciklum.gitlum.routes.dto.Request;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -27,23 +27,9 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Slf4j
 public class GitRepositoriesHandler {
 
-	@Value("${constants.user-request-param-value}")
-	private String userKey;
-	@Value("${constants.page-request-param-value}")
-	private String pageNumberKey;
-	@Value("${constants.page-size-result-request-param-value}")
-	private String resultsPerPageKey;
-	@Value("${constants.authorization-header}")
-	private String authorizationHeader;
-	@Value("${constants.default-page-number}")
-	private String defaultPageNumber;
-	@Value("${constants.default-results-per-page}")
-	private String defaultResultsPerPage;
-	@Value("${constants.token-prefix}")
-	private String tokenPrefix;
-
 	private static final String EMPTY = "";
 
+	private final RequestProperties requestProperties;
 	private final BuildGitRepositories buildGitRepositories;
 
 	public Mono<ServerResponse> getGitRepositories(final ServerRequest source) {
@@ -79,15 +65,15 @@ public class GitRepositoriesHandler {
 	}
 
 	private Request buildRequest(final ServerRequest source) {
-		final var gutUser = source.queryParam(userKey).get();
-		final var pageNum = source.queryParam(pageNumberKey).orElse(defaultPageNumber);
-		final var resultsPerPage = source.queryParam(resultsPerPageKey).orElse(defaultResultsPerPage);
+		final var gutUser = source.queryParam(requestProperties.getUserParamKey()).get();
+		final var pageNum = source.queryParam(requestProperties.getPageNumberParamKey()).orElse(requestProperties.getDefaultPageNumber());
+		final var resultsPerPage = source.queryParam(requestProperties.getResultsPerPageParamValue()).orElse(requestProperties.getDefaultResultsPerPage());
 		final var token = source
 				.headers()
-				.header(authorizationHeader)
+				.header(requestProperties.getAuthorizationHeaderKey())
 				.stream()
-				.filter(e -> e.contains(tokenPrefix))
-				.map(s -> s.replace(tokenPrefix, EMPTY))
+				.filter(e -> e.contains(requestProperties.getTokenPrefix()))
+				.map(s -> s.replace(requestProperties.getTokenPrefix(), EMPTY))
 				.findFirst()
 				.orElse(EMPTY);
 		return new Request(gutUser, parseInt(pageNum), parseInt(resultsPerPage), token);

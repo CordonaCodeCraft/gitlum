@@ -1,5 +1,6 @@
 package com.ciklum.gitlum.routes.config;
 
+import com.ciklum.gitlum.config.EndpointProperties;
 import com.ciklum.gitlum.domain.model.dto.RepoDTO;
 import com.ciklum.gitlum.routes.filters.InvalidMediaTypeFilter;
 import com.ciklum.gitlum.routes.filters.MissingUserParameterFilter;
@@ -8,8 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.RouterOperation;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -21,12 +22,10 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
+@RequiredArgsConstructor
 public class RoutesConfig {
 
-	@Value("${constants.git-repositories-base-url}")
-	private String baseURL;
-	@Value("${constants.get-git-repositories-uri}")
-	private String getGitRepositoriesURI;
+	private final EndpointProperties endpointProperties;
 
 	@Bean
 	@RouterOperation(
@@ -51,8 +50,12 @@ public class RoutesConfig {
 			final InvalidMediaTypeFilter invalidMediaTypeFilter,
 			final MissingUserParameterFilter missingUserParameterFilter
 	) {
-		return route(GET(baseURL + getGitRepositoriesURI), gitRepositoriesHandler::getGitRepositories)
+		return route(
+				GET(endpointProperties.getBaseUrl() + endpointProperties.getGetRepositories()),
+				gitRepositoriesHandler::getGitRepositories
+		)
 				.filter(invalidMediaTypeFilter)
 				.filter(missingUserParameterFilter);
 	}
+
 }

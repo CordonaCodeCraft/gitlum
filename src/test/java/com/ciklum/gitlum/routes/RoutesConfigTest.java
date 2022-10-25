@@ -1,11 +1,12 @@
 package com.ciklum.gitlum.routes;
 
 import com.ciklum.gitlum.IntegrationTest;
+import com.ciklum.gitlum.config.EndpointProperties;
+import com.ciklum.gitlum.config.RequestProperties;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -13,15 +14,8 @@ import static org.springframework.http.MediaType.APPLICATION_XML;
 
 class RoutesConfigTest extends IntegrationTest {
 
-	@Value("${constants.git-repositories-base-url}")
-	private String subjectURL;
-	@Value("${constants.get-git-repositories-uri}")
-	private String subjectURI;
-	@Value("${constants.authorization-header}")
-	private String authorizationHeader;
-	@Value("${constants.token-prefix}")
-	private String tokenPrefix;
-
+	@Autowired private EndpointProperties endpointProperties;
+	@Autowired private RequestProperties requestProperties;
 	@Autowired private WebTestClient testClient;
 	@Autowired private ApplicationContext applicationContext;
 
@@ -34,13 +28,18 @@ class RoutesConfigTest extends IntegrationTest {
 	@DisplayName("Given existing user and without pagination parameters produces result as expected")
 	public void givenExistingUserAndWithoutPaginationParametersProducesResultAsExpected() {
 		// given
-		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
+		final var uri = String.format(
+				"/%s/%s?user=%s",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories(),
+				FIRST_EXISTING_USER
+		);
 		final var expectedRepositoriesCount = 1;
 		//then
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + TOKEN)
+				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -55,15 +54,21 @@ class RoutesConfigTest extends IntegrationTest {
 		// given
 		final var page = 1;
 		final var resultsPerPage = 2;
-		final var uri = String.format("/%s/%s?user=%s&page=%d&per_page=%d",
-				subjectURL, subjectURI, SECOND_EXISTING_USER, page, resultsPerPage);
+		final var uri = String.format(
+				"/%s/%s?user=%s&page=%d&per_page=%d",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories(),
+				SECOND_EXISTING_USER,
+				page,
+				resultsPerPage
+		);
 		final var expectedRepositoriesCount = 1;
 		final var expectedBranchesCount = 1;
 		// then
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + TOKEN)
+				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -78,14 +83,19 @@ class RoutesConfigTest extends IntegrationTest {
 	@DisplayName("Given non-existing user will return 404 error message")
 	public void givenNonExistingUserWillReturn404ErrorMessage() {
 		// given
-		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, NON_EXISTING_USER);
+		final var uri = String.format(
+				"/%s/%s?user=%s",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories(),
+				NON_EXISTING_USER
+		);
 		final var expectedStatusCode = "404";
 		final var expectedMessage = String.format("Github user %s not found", NON_EXISTING_USER);
 		//then
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + TOKEN)
+				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + TOKEN)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
@@ -97,7 +107,11 @@ class RoutesConfigTest extends IntegrationTest {
 	@DisplayName("Given user not provided will return 400 error")
 	public void givenUserNotProvidedWillReturn400ErrorMessage() {
 		// given
-		final var uri = String.format("/%s/%s", subjectURL, subjectURI);
+		final var uri = String.format(
+				"/%s/%s",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories()
+		);
 		final var expectedStatusCode = "400";
 		final var expectedMessage = "Github user not provided";
 		//then
@@ -115,14 +129,18 @@ class RoutesConfigTest extends IntegrationTest {
 	@DisplayName("Given invalid media type will return 406 error message")
 	public void givenInvalidMediaTypeWillReturn406ErrorMessage() {
 		// given
-		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
+		final var uri = String.format("/%s/%s?user=%s",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories(),
+				FIRST_EXISTING_USER
+		);
 		final var expectedStatusCode = "406";
 		final var expectedMessage = String.format("Invalid media type: %s", APPLICATION_XML);
 		//then
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + TOKEN)
+				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + TOKEN)
 				.header("Accept", "application/xml")
 				.exchange()
 				.expectStatus().isOk()
@@ -136,14 +154,19 @@ class RoutesConfigTest extends IntegrationTest {
 	public void givenWrongCredentialsWillReturn401ErrorMessage() {
 		// given
 		final var invalidToken = "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sdsfdfdsdsddsfsdsdsdf";
-		final var uri = String.format("/%s/%s?user=%s", subjectURL, subjectURI, FIRST_EXISTING_USER);
+		final var uri = String.format(
+				"/%s/%s?user=%s",
+				endpointProperties.getBaseUrl(),
+				endpointProperties.getGetRepositories(),
+				FIRST_EXISTING_USER
+		);
 		final var expectedStatusCode = "401";
 		final var expectedMessage = "Wrong credentials";
 		//then
 		testClient
 				.get()
 				.uri(uri)
-				.header(authorizationHeader, tokenPrefix + invalidToken)
+				.header(requestProperties.getAuthorizationHeaderKey(), requestProperties.getTokenPrefix() + invalidToken)
 				.exchange()
 				.expectStatus().isOk()
 				.expectBody()
