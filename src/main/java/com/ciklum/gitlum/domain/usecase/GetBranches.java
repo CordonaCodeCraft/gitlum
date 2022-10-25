@@ -1,17 +1,17 @@
 package com.ciklum.gitlum.domain.usecase;
 
-import com.ciklum.gitlum.annotations.UseCase;
 import com.ciklum.gitlum.config.GitProperties;
 import com.ciklum.gitlum.domain.model.git.Branch;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Consumer;
 
-@UseCase
+@Service
 @RequiredArgsConstructor
 public class GetBranches {
 
