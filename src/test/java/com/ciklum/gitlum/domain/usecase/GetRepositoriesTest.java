@@ -1,8 +1,8 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.IntegrationTest;
-import com.ciklum.gitlum.routes.dto.Request;
 import com.ciklum.gitlum.domain.model.git.Repo;
+import com.ciklum.gitlum.routes.dto.Request;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

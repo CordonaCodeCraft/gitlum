@@ -1,9 +1,9 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.IntegrationTest;
-import com.ciklum.gitlum.routes.dto.Request;
 import com.ciklum.gitlum.domain.model.dto.BranchDTO;
 import com.ciklum.gitlum.domain.model.dto.RepoDTO;
+import com.ciklum.gitlum.routes.dto.Request;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.annotations.UseCase;
-import com.ciklum.gitlum.routes.dto.Request;
 import com.ciklum.gitlum.domain.model.git.Repo;
+import com.ciklum.gitlum.routes.dto.Request;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

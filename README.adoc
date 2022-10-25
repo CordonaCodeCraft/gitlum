@@ -335,6 +335,7 @@ If the request payload is not in the required format, the application will handl
 == Non-authenticated and authenticated requests
 
 === Non-authenticated requests
+
 When consuming our API, consider that the backing GitHub API sets https://docs.github.com/en/rest/rate-limit[rate limits] for the requests you can execute per one astronomical hour (60 minutes).
 
 Suppose you query GitHub users with many public non-forked repositories with many branches.
@@ -383,6 +384,7 @@ x-ratelimit-used: 60
 content-length: 277
 x-github-request-id: FABC:912C:195465E:19C4BF6:633D57BB
 ----
+
 === Authenticated requests
 
 You can provide a token generated in your GitHub account, increasing the rate limits to 5 000 per hour.
@@ -402,7 +404,8 @@ Then select "Generate new token (classic)"
 
 image::readmeassets/GenerateTokenScreenshot.png[]
 
-Then select your properties. To increase your rate limits when accessing public repositories, you can choose only the property as shown below:
+Then select your properties.
+To increase your rate limits when accessing public repositories, you can choose only the property as shown below:
 
 image::readmeassets/TokenPropertiesScreenshot.png[]
 
