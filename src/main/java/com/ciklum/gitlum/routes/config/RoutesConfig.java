@@ -45,7 +45,7 @@ public class RoutesConfig {
 					}
 			)
 	)
-	public RouterFunction<ServerResponse> getGitRepositories(
+	public RouterFunction<ServerResponse> gitRepositories(
 			final GitRepositoriesHandler gitRepositoriesHandler,
 			final InvalidMediaTypeFilter invalidMediaTypeFilter,
 			final MissingUserParameterFilter missingUserParameterFilter
