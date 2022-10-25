@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class EndpointProperties {
-    private String baseUrl;
-    private String getRepositories;
+	private String baseUrl;
+	private String getRepositories;
 }
