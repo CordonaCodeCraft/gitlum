@@ -15,28 +15,27 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class GetBranches {
 
-	private final GitProperties gitProperties;
-	private final WebClient.Builder webClientBuilder;
+  private final GitProperties gitProperties;
+  private final WebClient.Builder webClientBuilder;
 
-	public Flux<Branch> invoke(final Repo source, final String token) {
-		return webClientBuilder
-				.baseUrl(gitProperties.getBaseUrl())
-				.build()
-				.get()
-				.uri(uriBuilder ->
-						uriBuilder
-								.path(gitProperties.getBranchesUri())
-								.build(source.getOwner().getLogin(), source.getName())
-				)
-				.headers(setHeaders(token))
-				.retrieve()
-				.bodyToFlux(Branch.class);
-	}
+  public Flux<Branch> invoke(final Repo source, final String token) {
+    return webClientBuilder
+        .baseUrl(gitProperties.getBaseUrl())
+        .build()
+        .get()
+        .uri(
+            uriBuilder ->
+                uriBuilder
+                    .path(gitProperties.getBranchesUri())
+                    .build(source.getOwner().getLogin(), source.getName()))
+        .headers(setHeaders(token))
+        .retrieve()
+        .bodyToFlux(Branch.class);
+  }
 
-	private static Consumer<HttpHeaders> setHeaders(final String token) {
-		return token.isEmpty()
-				? HttpHeaders::clearContentHeaders
-				: HttpHeaders -> HttpHeaders.setBearerAuth(token);
-	}
-
+  private static Consumer<HttpHeaders> setHeaders(final String token) {
+    return token.isEmpty()
+        ? HttpHeaders::clearContentHeaders
+        : HttpHeaders -> HttpHeaders.setBearerAuth(token);
+  }
 }

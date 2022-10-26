@@ -8,7 +8,7 @@ import java.util.Set;
 @Data
 @Builder
 public class RepoDTO {
-	private String repositoryName;
-	private String ownerLogin;
-	private Set<BranchDTO> branches;
+  private String repositoryName;
+  private String ownerLogin;
+  private Set<BranchDTO> branches;
 }

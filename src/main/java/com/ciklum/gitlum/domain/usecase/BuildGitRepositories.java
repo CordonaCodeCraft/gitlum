@@ -20,35 +20,29 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BuildGitRepositories {
 
-	private final GetRepositories getRepositories;
-	private final GetBranches getBranches;
-	private final RepoMapper repoMapper;
-	private final BranchMapper branchMapper;
+  private final GetRepositories getRepositories;
+  private final GetBranches getBranches;
+  private final RepoMapper repoMapper;
+  private final BranchMapper branchMapper;
 
-	public Flux<RepoDTO> invoke(final Request request) {
-		return getRepositories
-				.invoke(request)
-				.flatMap(r -> repoToDTO(r, request.token()));
-	}
+  public Flux<RepoDTO> invoke(final Request request) {
+    return getRepositories.invoke(request).flatMap(r -> repoToDTO(r, request.token()));
+  }
 
-	private Mono<RepoDTO> repoToDTO(final Repo source, final String token) {
-		final var dto = Mono.just(repoMapper.toDTO(source));
-		final var branches = branchesToCollection(getBranches.invoke(source, token));
-		return dto
-				.zipWith(branches)
-				.map(BuildGitRepositories::asFinalProduct);
-	}
+  private Mono<RepoDTO> repoToDTO(final Repo source, final String token) {
+    final var dto = Mono.just(repoMapper.toDTO(source));
+    final var branches = branchesToCollection(getBranches.invoke(source, token));
+    return dto.zipWith(branches).map(BuildGitRepositories::asFinalProduct);
+  }
 
-	private Mono<Set<BranchDTO>> branchesToCollection(final Flux<Branch> source) {
-		return source
-				.map(branchMapper::ToDTO)
-				.collect(Collectors.toSet());
-	}
+  private Mono<Set<BranchDTO>> branchesToCollection(final Flux<Branch> source) {
+    return source.map(branchMapper::ToDTO).collect(Collectors.toSet());
+  }
 
-	private static RepoDTO asFinalProduct(final Tuple2<RepoDTO, Set<BranchDTO>> source) {
-		final var target = source.getT1();
-		final var branches = source.getT2();
-		target.setBranches(branches);
-		return target;
-	}
+  private static RepoDTO asFinalProduct(final Tuple2<RepoDTO, Set<BranchDTO>> source) {
+    final var target = source.getT1();
+    final var branches = source.getT2();
+    target.setBranches(branches);
+    return target;
+  }
 }

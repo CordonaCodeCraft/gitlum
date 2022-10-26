@@ -25,37 +25,32 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 @RequiredArgsConstructor
 public class RoutesConfig {
 
-	private final EndpointProperties endpointProperties;
+  private final EndpointProperties endpointProperties;
 
-	@Bean
-	@RouterOperation(
-			method = GET,
-			path = "/api/v1/git-repositories/get",
-			produces = {APPLICATION_JSON_VALUE},
-			beanClass = GitRepositoriesHandler.class,
-			beanMethod = "getGitRepositories",
-			operation = @Operation(
-					operationId = "getGitRepositories",
-					responses = {
-							@ApiResponse(
-									responseCode = "200",
-									description = "Successful operation",
-									content = @Content(schema = @Schema(implementation = RepoDTO.class))
-							)
-					}
-			)
-	)
-	public RouterFunction<ServerResponse> gitRepositories(
-			final GitRepositoriesHandler gitRepositoriesHandler,
-			final InvalidMediaTypeFilter invalidMediaTypeFilter,
-			final MissingUserParameterFilter missingUserParameterFilter
-	) {
-		return route(
-				GET(endpointProperties.getBaseUrl() + endpointProperties.getGetRepositories()),
-				gitRepositoriesHandler::getGitRepositories
-		)
-				.filter(invalidMediaTypeFilter)
-				.filter(missingUserParameterFilter);
-	}
-
+  @Bean
+  @RouterOperation(
+      method = GET,
+      path = "/api/v1/git-repositories/get",
+      produces = {APPLICATION_JSON_VALUE},
+      beanClass = GitRepositoriesHandler.class,
+      beanMethod = "getGitRepositories",
+      operation =
+          @Operation(
+              operationId = "getGitRepositories",
+              responses = {
+                @ApiResponse(
+                    responseCode = "200",
+                    description = "Successful operation",
+                    content = @Content(schema = @Schema(implementation = RepoDTO.class)))
+              }))
+  public RouterFunction<ServerResponse> gitRepositories(
+      final GitRepositoriesHandler gitRepositoriesHandler,
+      final InvalidMediaTypeFilter invalidMediaTypeFilter,
+      final MissingUserParameterFilter missingUserParameterFilter) {
+    return route(
+            GET(endpointProperties.getBaseUrl() + endpointProperties.getGetRepositories()),
+            gitRepositoriesHandler::getGitRepositories)
+        .filter(invalidMediaTypeFilter)
+        .filter(missingUserParameterFilter);
+  }
 }

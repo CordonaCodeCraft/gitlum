@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BranchMapper {
-	@Mapping(source = "name", target = "branchName")
-	@Mapping(source = "commit.sha", target = "lastCommitSha")
-	BranchDTO ToDTO(final Branch source);
+  @Mapping(source = "name", target = "branchName")
+  @Mapping(source = "commit.sha", target = "lastCommitSha")
+  BranchDTO ToDTO(final Branch source);
 }

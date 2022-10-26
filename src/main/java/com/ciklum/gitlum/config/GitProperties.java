@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 public class GitProperties {
-	private String baseUrl;
-	private String repositoriesUri;
-	private String branchesUri;
+  private String baseUrl;
+  private String repositoriesUri;
+  private String branchesUri;
 }

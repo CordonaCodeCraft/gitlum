@@ -12,48 +12,45 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-		"sha",
-		"url"
-})
+@JsonPropertyOrder({"sha", "url"})
 @Generated("jsonschema2pojo")
 public class Commit {
 
-	@JsonProperty("sha")
-	private String sha;
-	@JsonProperty("url")
-	private String url;
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("sha")
+  private String sha;
 
-	@JsonProperty("sha")
-	public String getSha() {
-		return sha;
-	}
+  @JsonProperty("url")
+  private String url;
 
-	@JsonProperty("sha")
-	public void setSha(String sha) {
-		this.sha = sha;
-	}
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-	@JsonProperty("url")
-	public String getUrl() {
-		return url;
-	}
+  @JsonProperty("sha")
+  public String getSha() {
+    return sha;
+  }
 
-	@JsonProperty("url")
-	public void setUrl(String url) {
-		this.url = url;
-	}
+  @JsonProperty("sha")
+  public void setSha(String sha) {
+    this.sha = sha;
+  }
 
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
+  @JsonProperty("url")
+  public String getUrl() {
+    return url;
+  }
 
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
+  @JsonProperty("url")
+  public void setUrl(String url) {
+    this.url = url;
+  }
 
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

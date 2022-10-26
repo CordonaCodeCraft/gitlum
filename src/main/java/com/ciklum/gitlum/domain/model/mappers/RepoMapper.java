@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface RepoMapper {
-	@Mapping(source = "name", target = "repositoryName")
-	@Mapping(source = "owner.login", target = "ownerLogin")
-	RepoDTO toDTO(final Repo source);
+  @Mapping(source = "name", target = "repositoryName")
+  @Mapping(source = "owner.login", target = "ownerLogin")
+  RepoDTO toDTO(final Repo source);
 }

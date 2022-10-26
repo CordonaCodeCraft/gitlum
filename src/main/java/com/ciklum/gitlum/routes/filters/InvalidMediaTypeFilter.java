@@ -19,28 +19,26 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class InvalidMediaTypeFilter implements HandlerFilterFunction<ServerResponse, ServerResponse> {
+public class InvalidMediaTypeFilter
+    implements HandlerFilterFunction<ServerResponse, ServerResponse> {
 
-	private final RequestProperties requestProperties;
+  private final RequestProperties requestProperties;
 
-	@Override
-	public Mono<ServerResponse> filter(final ServerRequest request, final HandlerFunction<ServerResponse> response) {
-		final var invalidMediaType = findInvalidMediaTypeIn(request);
-		if (invalidMediaType.isPresent()) {
-			final var errorMessage = String.format("Invalid media type: %s", invalidMediaType.get());
-			log.info(errorMessage);
-			return ok().bodyValue(new ErrorContainer(406, errorMessage));
-		}
-		return response.handle(request);
-	}
+  @Override
+  public Mono<ServerResponse> filter(
+      final ServerRequest request, final HandlerFunction<ServerResponse> response) {
+    final var invalidMediaType = findInvalidMediaTypeIn(request);
+    if (invalidMediaType.isPresent()) {
+      final var errorMessage = String.format("Invalid media type: %s", invalidMediaType.get());
+      log.info(errorMessage);
+      return ok().bodyValue(new ErrorContainer(406, errorMessage));
+    }
+    return response.handle(request);
+  }
 
-	private Optional<MediaType> findInvalidMediaTypeIn(final ServerRequest request) {
-		return request
-				.headers()
-				.accept()
-				.stream()
-				.filter(mediaType -> !requestProperties.getValidMediaTypes().contains(mediaType.toString()))
-				.findFirst();
-	}
-
+  private Optional<MediaType> findInvalidMediaTypeIn(final ServerRequest request) {
+    return request.headers().accept().stream()
+        .filter(mediaType -> !requestProperties.getValidMediaTypes().contains(mediaType.toString()))
+        .findFirst();
+  }
 }

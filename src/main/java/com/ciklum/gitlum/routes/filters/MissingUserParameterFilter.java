@@ -17,18 +17,19 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class MissingUserParameterFilter implements HandlerFilterFunction<ServerResponse, ServerResponse> {
+public class MissingUserParameterFilter
+    implements HandlerFilterFunction<ServerResponse, ServerResponse> {
 
-	private final RequestProperties requestProperties;
+  private final RequestProperties requestProperties;
 
-	@Override
-	public Mono<ServerResponse> filter(final ServerRequest request, final HandlerFunction<ServerResponse> response) {
-		if (request.queryParam(requestProperties.getUserParamKey()).isEmpty()) {
-			final var errorMessage = "Github user not provided";
-			log.info(errorMessage);
-			return ok().bodyValue(new ErrorContainer(BAD_REQUEST.value(), errorMessage));
-		}
-		return response.handle(request);
-	}
-
+  @Override
+  public Mono<ServerResponse> filter(
+      final ServerRequest request, final HandlerFunction<ServerResponse> response) {
+    if (request.queryParam(requestProperties.getUserParamKey()).isEmpty()) {
+      final var errorMessage = "Github user not provided";
+      log.info(errorMessage);
+      return ok().bodyValue(new ErrorContainer(BAD_REQUEST.value(), errorMessage));
+    }
+    return response.handle(request);
+  }
 }
