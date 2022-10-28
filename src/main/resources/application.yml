@@ -18,7 +18,7 @@ gitlum:
     max-results-per-page-for-branches-allowed: "100"
   endpoints:
     base-url: "api/v1/git-repositories"
-    get-repositories: "/get"
+    get-repositories: "/thin-repositories"
   request:
     default-page-number: "1"
     default-results-per-page: "30"
