@@ -1,6 +1,7 @@
 package com.ciklum.gitlum.domain.usecase;
 
 import com.ciklum.gitlum.config.GitProperties;
+import com.ciklum.gitlum.config.RequestProperties;
 import com.ciklum.gitlum.domain.model.git.Repo;
 import com.ciklum.gitlum.routes.dto.Request;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,12 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class GetRepositories {
 
+  private final RequestProperties requestProperties;
   private final GitProperties gitProperties;
-  private final WebClient.Builder webClientBuilder;
+  private final WebClient.Builder webClient;
 
   public Flux<Repo> invoke(final Request request) {
-    return webClientBuilder
+    return webClient
         .baseUrl(gitProperties.getBaseUrl())
         .build()
         .get()
@@ -27,8 +29,9 @@ public class GetRepositories {
             uriBuilder ->
                 uriBuilder
                     .path(gitProperties.getRepositoriesUri())
-                    .queryParam("page", request.pageNumber())
-                    .queryParam("per_page", request.resultsPerPage())
+                    .queryParam(requestProperties.getPageNumberParamKey(), request.pageNumber())
+                    .queryParam(
+                        requestProperties.getResultsPerPageParamValue(), request.resultsPerPage())
                     .build(request.gitUser()))
         .headers(setHeaders(request))
         .retrieve()

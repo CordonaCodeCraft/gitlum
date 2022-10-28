@@ -12,5 +12,8 @@ import org.springframework.context.annotation.Configuration;
 public class GitProperties {
   private String baseUrl;
   private String repositoriesUri;
-  private String branchesUri;
+  private String branchesUriPattern;
+  private String maxResultsPerPageForBranchesAllowed;
+  private String nextBranchPageRegex;
+  private String paginationHeaderKey;
 }
