@@ -22,22 +22,22 @@ public class GetBranches {
 
   private static final String LAST_PAGE = "Last page";
 
-  private final RequestProperties requestProperties;
   private final GitProperties gitProperties;
+  private final RequestProperties requestProperties;
   private final WebClient.Builder webClient;
 
   /**
    * The GitHub API paginates the results even when pagination parameters are not provided. More
    * details on the basics of pagination are provided <a
    * href="https://docs.github.com/en/enterprise-cloud@latest/rest/guides/traversing-with-pagination">here</a>
-   * Listing branches also support pagination. The default values are the first page and 30 results
-   * per page. The default maximum value for the results per page is "100" as explained <a
+   * Listing branches also support pagination. The default pagination values are the 1 page and 30
+   * results per page. The default maximum value for the results per page is 100 as explained <a
    * href="https://docs.github.com/en/enterprise-cloud@latest/rest/branches/branches">here</a>.
    * Suppose a given repository has more than 100 branches. When attempting to get all the branches
-   * for this repository - we will end up with only the first 100 branches - the maximum results
-   * allowed per page. Therefore - the below method provides an asynchronous accumulation of all the
-   * branches across all the pages and returns them as a single {@link Flux} of {@link Branch}
-   * objects
+   * for this repository - we will end up with only the first 100 branches from the first page - the
+   * maximum results allowed per page. Therefore - the below method provides an asynchronous
+   * accumulation of all the branches across all the pages and returns them as a single {@link Flux}
+   * of {@link Branch} objects.
    */
   public Flux<Branch> invoke(final Repo source, final String token) {
     return fetchBranches(webClient, toFirstPage(source), token)
@@ -74,8 +74,7 @@ public class GetBranches {
     return String.format(
         gitProperties.getBranchesUriPattern(),
         gitProperties.getBaseUrl(),
-        source.getOwner().getLogin(),
-        source.getName(),
+        source.getId(),
         requestProperties.getDefaultPageNumber(),
         gitProperties.getMaxResultsPerPageForBranchesAllowed());
   }

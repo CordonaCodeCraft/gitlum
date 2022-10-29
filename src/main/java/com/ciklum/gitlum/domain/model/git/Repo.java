@@ -334,9 +334,8 @@ public class Repo {
 
   @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-  public Repo(final String name, final RepoOwner owner) {
-    this.name = name;
-    this.owner = owner;
+  public Repo(final Integer id) {
+    this.id = id;
   }
 
   @JsonProperty("id")
