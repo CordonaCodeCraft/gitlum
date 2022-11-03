@@ -10,5 +10,5 @@ public abstract class IntegrationTest {
   public static final Integer FIRST_EXISTING_REPO_ID = 247308472;
   public static final String SECOND_EXISTING_REPO = "amigoscode-microservices-demo";
   public static final String NON_EXISTING_USER = "NonExistingUser";
-  public static final String TOKEN = "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";
+  public static final String TOKEN = "";
 }
