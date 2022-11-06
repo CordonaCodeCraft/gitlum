@@ -12,61 +12,58 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-		"name",
-		"commit",
-		"protected"
-})
+@JsonPropertyOrder({"name", "commit", "protected"})
 @Generated("jsonschema2pojo")
 public class Branch {
 
-	@JsonProperty("name")
-	private String name;
-	@JsonProperty("commit")
-	private Commit commit;
-	@JsonProperty("protected")
-	private Boolean _protected;
-	@JsonIgnore
-	private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  @JsonProperty("name")
+  private String name;
 
-	@JsonProperty("name")
-	public String getName() {
-		return name;
-	}
+  @JsonProperty("commit")
+  private Commit commit;
 
-	@JsonProperty("name")
-	public void setName(String name) {
-		this.name = name;
-	}
+  @JsonProperty("protected")
+  private Boolean _protected;
 
-	@JsonProperty("commit")
-	public Commit getCommit() {
-		return commit;
-	}
+  @JsonIgnore private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-	@JsonProperty("commit")
-	public void setCommit(Commit commit) {
-		this.commit = commit;
-	}
+  @JsonProperty("name")
+  public String getName() {
+    return name;
+  }
 
-	@JsonProperty("protected")
-	public Boolean getProtected() {
-		return _protected;
-	}
+  @JsonProperty("name")
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	@JsonProperty("protected")
-	public void setProtected(Boolean _protected) {
-		this._protected = _protected;
-	}
+  @JsonProperty("commit")
+  public Commit getCommit() {
+    return commit;
+  }
 
-	@JsonAnyGetter
-	public Map<String, Object> getAdditionalProperties() {
-		return this.additionalProperties;
-	}
+  @JsonProperty("commit")
+  public void setCommit(Commit commit) {
+    this.commit = commit;
+  }
 
-	@JsonAnySetter
-	public void setAdditionalProperty(String name, Object value) {
-		this.additionalProperties.put(name, value);
-	}
+  @JsonProperty("protected")
+  public Boolean getProtected() {
+    return _protected;
+  }
 
+  @JsonProperty("protected")
+  public void setProtected(Boolean _protected) {
+    this._protected = _protected;
+  }
+
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return this.additionalProperties;
+  }
+
+  @JsonAnySetter
+  public void setAdditionalProperty(String name, Object value) {
+    this.additionalProperties.put(name, value);
+  }
 }

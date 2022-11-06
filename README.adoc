@@ -2,7 +2,8 @@
 
 == Backstory
 
-Volodymyr, a delivery manager, recently joined https://www.ciklum.com[Ciklum] and wants to track his teammates' public GitHub repositories to improve the delivery rates of his team. It appears that some developers are contributing to projects outside Ciklum during business hours.
+Volodymyr, a delivery manager, recently joined https://www.ciklum.com[Ciklum] and wants to track his teammates' public GitHub repositories to improve the delivery rates of his team.
+It appears that some developers are contributing to projects outside Ciklum during business hours.
 
 GitHub is too verbose when serving data about repositories and branches.
 
@@ -18,7 +19,6 @@ Soon Gitlum was born - a ##**Git**##Hub application for Cik##**lum**## teams.
 
 . https://drive.google.com/file/d/1j0LXyeLcMsDrXvFvnt25a0jbFw5QDoOW/view?usp=sharing[Backend Dev Task]
 . https://docs.github.com/en/rest[Backing API]
-. https://github.com/CordonaCodeCraft/gitlum[Dev task GitHub repository]
 
 == Technology Stack
 
@@ -36,7 +36,6 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 
 === Spring dependencies
 
-. https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web[Spring Boot Starter Web]
 . https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html[Spring Boot Starter Webflux]
 . https://spring.io/projects/spring-cloud-sleuth[Spring Boot Starter Sleuth]
 . https://docs.spring.io/spring-boot/docs/1.5.7.RELEASE/reference/html/boot-features-testing.html[Spring Boot Starter Test]
@@ -135,12 +134,10 @@ Since this application is an http://theleanstartup.com[MVP], we implemented a si
 ``localhost:8080/api/v1/git-repositories/get
 ``
 
-The endpoint is expecting a JSON payload in the request's body, containing the name of a GitHub user:
+The endpoint expects a mandatory parameter for the GitHub user.
 
-[source,Json]
-----
-{"gitUser":"your-github-user"}
-----
+You can leverage the pagination, supported by the backing API, and pass parameters for a page number and results to be displayed per page.
+If you do not provide such parameters - the application resolves them to default values, as declared in the application.yml file.
 
 Upon success (GitHub user is present), the endpoint returns his public not forked repositories and their branches, formatted per the business requirements:
 
@@ -310,7 +307,17 @@ If GitHub user is not present, the application will handle the exception accordi
 ----
 {
     "httpStatus": 404,
-    "message": "Github user with username invalid-github-user not found"
+    "message": "Github user <invalid-user> not found"
+}
+----
+
+If GitHub user query parameter is empty, the application will handle the exception accordingly and will return Json object as follows:
+
+[source,Json]
+----
+{
+    "httpStatus": 400,
+    "message": "Github user not provided"
 }
 ----
 
@@ -321,23 +328,29 @@ If the request payload is not in the required format, the application will handl
 
 {
     "statusCode": 406,
-    "message": "Invalid content type (XML) provided. JSON content type required"
+    "message": "Invalid media type: application/xml"
 }
 ----
 
-#*Important*#:
+== Non-authenticated and authenticated requests
+
+=== Non-authenticated requests
 
 When consuming our API, consider that the backing GitHub API sets https://docs.github.com/en/rest/rate-limit[rate limits] for the requests you can execute per one astronomical hour (60 minutes).
 
-Suppose you query GitHub users with many public non-forked repositories with many branches. You can consume your limit quickly or even fail to get the expected result with a `403` error.
+Suppose you query GitHub users with many public non-forked repositories with many branches.
+You can consume your limit quickly or even fail to get the expected result with a `403` error.
 
-When you exceed your rate limit, you will enjoy the bellow log output in your application:
+When you exceed your rate limit, the application responds with
 
-image::readmeassets/RateLimitLogErrorScreenshot.jpg[]
+[source,Json]
+----
 
-In the terminal you can also confirm, that your rate limit is expired:
-
-image::readmeassets/TerminalRateLimitExceededScreenshot.jpg[]
+{
+    "statusCode": 403,
+    "message": "Request limit exceeded"
+}
+----
 
 You can check your rate limits with the following terminal command:
 
@@ -348,6 +361,7 @@ curl -I https://api.github.com/users/your-github-user-name
 
 Expect the following terminal output:
 [source,bash]
+
 ----
 HTTP/2 403
 date: Wed, 05 Oct 2022 10:08:59 GMT
@@ -371,6 +385,45 @@ content-length: 277
 x-github-request-id: FABC:912C:195465E:19C4BF6:633D57BB
 ----
 
+=== Authenticated requests
+
+You can provide a token generated in your GitHub account, increasing the rate limits to 5 000 per hour.
+Go to "Settings" from your GitHub account:
+
+image::readmeassets/SettingsScreenshot.png[]
+
+Then select "Developer Settings"
+
+image::readmeassets/DeveloperSettingsScreenshot.png[]
+
+Then select "Tokens"
+
+image::readmeassets/TokensScreenshot.png[]
+
+Then select "Generate new token (classic)"
+
+image::readmeassets/GenerateTokenScreenshot.png[]
+
+Then select your properties.
+To increase your rate limits when accessing public repositories, you can choose only the property as shown below:
+
+image::readmeassets/TokenPropertiesScreenshot.png[]
+
+You can provide the token in the headers of your request as shown below with Postman:
+
+image::readmeassets/AuthorizationHeaderScreenshot.png[]
+
+If you provide a wrong token or the token provided is expired or depleted, the application will respond with
+
+[source,Json]
+----
+
+{
+    "statusCode": 401,
+    "message": "Wrong credentials"
+}
+----
+
 == Swagger
 
 The public API of the application is extensively documented with Swagger.
@@ -379,12 +432,12 @@ To consult with the documentation:
 
 Start the application
 
-In your favorite web browser open the http://localhost:8080/docApi/swagger-ui.html[*Swagger UI*]
+In your favorite web browser open the http://localhost:8080/swagger-doc/swagger-ui.html[*Swagger UI*]
 
 image::readmeassets/SwaggerUIScreenshot.jpg[]
 
 You can consume the Open API documentation of the project as JSON.
-Simply perform http://localhost:8080/v2/api-docs[GET request] in your favorite REST client.
+Simply perform http://localhost:8080/swagger-doc/v3/api-docs[GET request] in your favorite REST client.
 We recommend https://www.postman.com[Postman].
 
 image::readmeassets/PostmanUIScreenshot.jpg[]
@@ -395,7 +448,8 @@ image::readmeassets/PostmanUIScreenshot.jpg[]
 
 The project's author is passionate about clean architecture, propagated by https://en.wikipedia.org/wiki/Robert_C._Martin[Uncle Bob] in his https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164[book], and the implementation of various services as https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html[use cases] and favoring https://medium.com/geekculture/composition-over-inheritance-7faed1628595[composition over inheritance].
 
-This project is a demo of such an implementation. The author firmly believes that it enables the single responsibility principle on the extreme and proves that such a code base developed by this design pattern is a pleasure to test.
+This project is a demo of such an implementation.
+The author firmly believes that it enables the single responsibility principle on the extreme and proves that such a code base developed by this design pattern is a pleasure to test.
 
 === Single module project
 
@@ -415,14 +469,10 @@ As a further mandatory improvement, the author would split the project into sepa
 
 - Represent the seeds of future microservices
 
-
-=== Almost reactive
-
-The `RestTemplate` is considered deprecated. Hence `WebClient` is used to consume the backing GitHub API, but the application uses Tomcat and is not considered non-blocking from end-to-end.
-
 === Not exactly unit tests
 
-The use cases and the controller are thoroughly tested but in a pure integration tests fashion. These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
+The use cases and the controller are thoroughly tested but in a pure integration tests fashion.
+These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
 
 This direct and non-optimal approach was favored due to the limited time for implementing the assignment.
 
@@ -430,13 +480,23 @@ For an actual production project, the author would prefer to utilize https://www
 
 == Additional resources
 
+=== Learn Spring reactive
+
+- https://www.youtube.com/watch?v=1F10gr2pbvQ[Josh Long's Reactive Spring GOTO 2019 talk]
+- https://www.youtube.com/playlist?list=PLEocw3gLFc8W-w8QZbM8f955StBEiQjJk[Laur Spilca's Spring Reactive lessons]
+- https://www.youtube.com/watch?v=IZ2SoXUiS7M&t=18s[Guide to "Reactive" for Spring MVC Developers]
+- https://www.youtube.com/watch?v=0rnMIueRKNU[Spring Reactive Do’s and Don’ts]
+- https://www.youtube.com/watch?v=S5tLVsvbHBg&t=5558s[Exception Handling in Functional and Reactive Programming by Venkat Subramaniam]
+
 === Recommended reading
+
 - https://peternixey.com/post/83510597580/how-to-be-a-great-software-developer[How to be a great software developer]
 - https://www.goodreads.com/book/show/3735293-clean-code[Clean code]
 - https://echelonfront.com/extreme-ownership/[Extreme ownership]
 - https://gettingthingsdone.com/what-is-gtd/[Getting things done]
 
 === Recommended watching
+
 - https://www.youtube.com/watch?v=EZ05e7EMOLM[TDD, Where Did It All Go Wrong]
 - https://www.youtube.com/watch?v=TBuIGBCF9jc[Make your bed]
 - https://www.youtube.com/watch?v=IdTMDpizis8[Good]
