@@ -10,8 +10,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+@TestPropertySource(properties = "gitlum.request.default-results-per-page=3")
 class RoutesConfigTest extends IntegrationTest {
 
   @Autowired private EndpointProperties endpointProperties;
@@ -20,7 +22,7 @@ class RoutesConfigTest extends IntegrationTest {
   @Autowired private ApplicationContext applicationContext;
 
   @BeforeEach
-  public void beforeEach() {
+  void bindClientToApplicationContext() {
     testClient = WebTestClient.bindToApplicationContext(applicationContext).build();
   }
 
@@ -41,7 +43,7 @@ class RoutesConfigTest extends IntegrationTest {
         .uri(uri)
         .header(
             requestProperties.getAuthorizationHeaderKey(),
-            requestProperties.getTokenPrefix() + TOKEN)
+            requestProperties.getTokenPrefix() + NO_AUTH_TOKEN)
         .exchange()
         .expectStatus()
         .isOk()
@@ -52,43 +54,6 @@ class RoutesConfigTest extends IntegrationTest {
         .isEqualTo(FIRST_EXISTING_REPO)
         .jsonPath("$[0].ownerLogin")
         .isEqualTo(FIRST_EXISTING_USER);
-  }
-
-  @Test
-  @DisplayName("Given existing user and with pagination parameters produces result as expected")
-  public void givenExistingUserAndWithPaginationParametersProducesResultAsExpected() {
-    // given
-    final var page = 1;
-    final var resultsPerPage = 2;
-    final var uri =
-        String.format(
-            "/%s/%s?user=%s&page=%d&per_page=%d",
-            endpointProperties.getBaseUrl(),
-            endpointProperties.getGetRepositories(),
-            SECOND_EXISTING_USER,
-            page,
-            resultsPerPage);
-    final var expectedRepositoriesCount = 1;
-    final var expectedBranchesCount = 1;
-    // then
-    testClient
-        .get()
-        .uri(uri)
-        .header(
-            requestProperties.getAuthorizationHeaderKey(),
-            requestProperties.getTokenPrefix() + TOKEN)
-        .exchange()
-        .expectStatus()
-        .isOk()
-        .expectBody()
-        .jsonPath("$.length()")
-        .isEqualTo(expectedRepositoriesCount)
-        .jsonPath("$[0].repositoryName")
-        .isEqualTo(SECOND_EXISTING_REPO)
-        .jsonPath("$[0].ownerLogin")
-        .isEqualTo(SECOND_EXISTING_USER)
-        .jsonPath("$[0].branches.size()")
-        .isEqualTo(expectedBranchesCount);
   }
 
   @Test
@@ -109,7 +74,7 @@ class RoutesConfigTest extends IntegrationTest {
         .uri(uri)
         .header(
             requestProperties.getAuthorizationHeaderKey(),
-            requestProperties.getTokenPrefix() + TOKEN)
+            requestProperties.getTokenPrefix() + NO_AUTH_TOKEN)
         .exchange()
         .expectStatus()
         .isOk()
@@ -162,38 +127,8 @@ class RoutesConfigTest extends IntegrationTest {
         .uri(uri)
         .header(
             requestProperties.getAuthorizationHeaderKey(),
-            requestProperties.getTokenPrefix() + TOKEN)
+            requestProperties.getTokenPrefix() + NO_AUTH_TOKEN)
         .header("Accept", invalidMediaType)
-        .exchange()
-        .expectStatus()
-        .isOk()
-        .expectBody()
-        .jsonPath("httpStatus")
-        .isEqualTo(expectedStatusCode)
-        .jsonPath("message")
-        .isEqualTo(expectedMessage);
-  }
-
-  @Test
-  @DisplayName("Given wrong credentials will return 401 error message")
-  public void givenWrongCredentialsWillReturn401ErrorMessage() {
-    // given
-    final var invalidToken = "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sdsfdfdsdsddsfsdsdsdf";
-    final var uri =
-        String.format(
-            "/%s/%s?user=%s",
-            endpointProperties.getBaseUrl(),
-            endpointProperties.getGetRepositories(),
-            FIRST_EXISTING_USER);
-    final var expectedStatusCode = "401";
-    final var expectedMessage = "Wrong credentials";
-    // then
-    testClient
-        .get()
-        .uri(uri)
-        .header(
-            requestProperties.getAuthorizationHeaderKey(),
-            requestProperties.getTokenPrefix() + invalidToken)
         .exchange()
         .expectStatus()
         .isOk()

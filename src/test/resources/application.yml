@@ -1,0 +1,26 @@
+gitlum:
+  wiremock:
+    host: "localhost"
+    port: "8080"
+  git:
+    base-url: "http://localhost:8080"
+    repositories-uri: "/users/{user}/repos"
+    branches-uri-pattern: "%s/repositories/%s/branches?page=%s&per_page=%s"
+    next-branch-page-regex: "<http://localhost:8080/repositories/[0-9]*/branches\\?page=[0-9]*&per_page=[0-9]*>; rel=\"next\""
+    pagination-header-key: "Link"
+    max-results-per-page-for-branches-allowed: "100"
+  endpoints:
+    base-url: "api/v1/git-repositories"
+    get-repositories: "/thin-repositories"
+  request:
+    default-page-number: "1"
+    default-results-per-page: "30"
+    user-param-key: "user"
+    page-number-param-key: "page"
+    results-per-page-param-value: "per_page"
+    authorization-header-key: "Authorization"
+    token-prefix: "Bearer: "
+    valid-media-types:
+      - "application/json"
+      - "application/*"
+      - "*/*"

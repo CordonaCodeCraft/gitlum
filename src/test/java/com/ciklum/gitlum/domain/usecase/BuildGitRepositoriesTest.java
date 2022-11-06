@@ -17,10 +17,10 @@ class BuildGitRepositoriesTest extends IntegrationTest {
   @Autowired BuildGitRepositories subject;
 
   @Test
-  @DisplayName("Produces result as expected")
-  public void producesResultAsExpected() {
+  @DisplayName("Builds Git repositories as expected final product")
+  public void buildsGitRepositoriesAsExpectedFinalProduct() {
     // Given
-    final var request = new Request(FIRST_EXISTING_USER, 1, 2, TOKEN);
+    final var request = new Request(FIRST_EXISTING_USER, 1, 3, NO_AUTH_TOKEN);
     final var expectedRepositoryCount = 1;
     final var expectedBranchCount = 12;
     final var expectedUserLogin = "Bisu-bg";
@@ -45,7 +45,7 @@ class BuildGitRepositoriesTest extends IntegrationTest {
   @DisplayName("Given non existing user will throw 404 error")
   public void givenNonExistingUserWillThrowAnError() {
     // Given
-    final var request = new Request(NON_EXISTING_USER, 1, 2, TOKEN);
+    final var request = new Request(NON_EXISTING_USER, 1, 3, NO_AUTH_TOKEN);
     // Then
     assertThatThrownBy(() -> subject.invoke(request).blockFirst())
         .isInstanceOf(WebClientResponseException.NotFound.class);

@@ -6,14 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@TestPropertySource(properties = "gitlum.git.max-results-per-page-for-branches-allowed=1")
+@TestPropertySource(properties = "gitlum.git.max-results-per-page-for-branches-allowed=4")
 public class BranchPaginationTests extends IntegrationTest {
 
-  @Autowired WebClient.Builder webClient;
   @Autowired GetBranches subject;
 
   @Test
@@ -23,7 +21,7 @@ public class BranchPaginationTests extends IntegrationTest {
     final var existingRepo = new Repo(FIRST_EXISTING_REPO_ID);
     final var expectedBranchesCount = 12;
     // When
-    final var branches = subject.invoke(existingRepo, TOKEN).collectList().block();
+    final var branches = subject.invoke(existingRepo, NO_AUTH_TOKEN).collectList().block();
     // Then
     assert branches != null;
     assertThat(branches.size()).isEqualTo(expectedBranchesCount);

@@ -1,0 +1,40 @@
+{
+  "id": "0759fb74-605a-4246-89fe-fa9b75740621",
+  "name": "Second page of paginated branches result",
+  "request": {
+    "url": "/repositories/247308472/branches?page=2&per_page=4",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "[{\"name\":\"dependabot/npm_and_yarn/mobile-bg-frontend/terser-4.8.1\",\"commit\":{\"sha\":\"ea20137e74059ac72f9cb51dbb59cad22f2e1c4e\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/ea20137e74059ac72f9cb51dbb59cad22f2e1c4e\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/async-2.6.4\",\"commit\":{\"sha\":\"800356fc0c95cf76800dc5dc53bc1d73ba1288b6\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/800356fc0c95cf76800dc5dc53bc1d73ba1288b6\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/eventsource-1.1.1\",\"commit\":{\"sha\":\"0b092cf9f2dcb17d88d995253ffeba9726b7e86a\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/0b092cf9f2dcb17d88d995253ffeba9726b7e86a\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/hapi/hoek-8.5.1\",\"commit\":{\"sha\":\"98f3a830f9f5381381a7eeb019537c1b73545644\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/98f3a830f9f5381381a7eeb019537c1b73545644\"},\"protected\":false}]",
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 06 Nov 2022 12:59:04 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=60, s-maxage=60",
+      "Vary": "Accept, Accept-Encoding, Accept, X-Requested-With",
+      "ETag": "W/\"e12a5dbf9c05ab748b5e46828a44ec1b29648cc5671da9b4c4fa98b066d3693c\"",
+      "X-GitHub-Media-Type": "github.v3; format=json",
+      "Link": "<http://localhost:8080/repositories/247308472/branches?page=1&per_page=4>; rel=\"prev\", <http://localhost:8080/repositories/247308472/branches?page=3&per_page=4>; rel=\"next\", <http://localhost:8080/repositories/247308472/branches?page=3&per_page=4>; rel=\"last\", <http://localhost:8080/repositories/247308472/branches?page=1&per_page=4>; rel=\"first\"",
+      "Access-Control-Expose-Headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "Access-Control-Allow-Origin": "*",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Frame-Options": "deny",
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "0",
+      "Referrer-Policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "Content-Security-Policy": "default-src 'none'",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "48",
+      "X-RateLimit-Reset": "1667740360",
+      "X-RateLimit-Resource": "core",
+      "X-RateLimit-Used": "12",
+      "Accept-Ranges": "bytes",
+      "X-GitHub-Request-Id": "FE35:3A7C:A4B9A59:A710593:6367AF98"
+    }
+  },
+  "uuid": "0759fb74-605a-4246-89fe-fa9b75740621",
+  "persistent": true,
+  "insertionIndex": 20
+}

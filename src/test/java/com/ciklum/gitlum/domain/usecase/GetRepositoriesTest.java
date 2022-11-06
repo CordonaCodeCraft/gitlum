@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-class GetRepositoriesTest extends IntegrationTest {
+public class GetRepositoriesTest extends IntegrationTest {
 
   @Autowired GetRepositories subject;
 
@@ -20,7 +20,7 @@ class GetRepositoriesTest extends IntegrationTest {
   public void givenExistingUserWillReturnNonForkedPublicRepositories() {
     // Given
     final var expectedRepositoriesCount = 1;
-    final var validRequest = new Request(FIRST_EXISTING_USER, 1, 3, TOKEN);
+    final var validRequest = new Request(FIRST_EXISTING_USER, 1, 3, NO_AUTH_TOKEN);
     // When
     final var repositories =
         subject.invoke(validRequest).filter(this::isNotForkedRepository).collectList().block();
@@ -35,7 +35,7 @@ class GetRepositoriesTest extends IntegrationTest {
   @DisplayName("Given non existing user will throw 404 error")
   public void givenNonExistingUserWillThrowAnError() {
     // Given
-    final var invalidRequest = new Request(NON_EXISTING_USER, 1, 3, TOKEN);
+    final var invalidRequest = new Request(NON_EXISTING_USER, 1, 3, NO_AUTH_TOKEN);
     // Then
     assertThatThrownBy(() -> subject.invoke(invalidRequest).blockFirst())
         .isInstanceOf(WebClientResponseException.NotFound.class);

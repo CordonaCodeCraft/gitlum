@@ -1,0 +1,40 @@
+{
+  "id": "6f8c6a5d-17da-4a5b-be0d-ca3157751ce4",
+  "name": "Third page of paginated branches result",
+  "request": {
+    "url": "/repositories/247308472/branches?page=3&per_page=4",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "[{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/moment-2.29.4\",\"commit\":{\"sha\":\"99ef25f2101becec7febff6685d33fb4b9c35a05\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/99ef25f2101becec7febff6685d33fb4b9c35a05\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/node-sass-7.0.0\",\"commit\":{\"sha\":\"b15402d5d1f1758925cdd3d2bc7df33a7f982f2a\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/b15402d5d1f1758925cdd3d2bc7df33a7f982f2a\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-skeleton/terser-4.8.1\",\"commit\":{\"sha\":\"7204816f8b808dacad86c15929a319b86f54ca65\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/7204816f8b808dacad86c15929a319b86f54ca65\"},\"protected\":false},{\"name\":\"master\",\"commit\":{\"sha\":\"be4c4ecaef9e506b4b4b79dd98d7c1eaa430e72c\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/be4c4ecaef9e506b4b4b79dd98d7c1eaa430e72c\"},\"protected\":false}]",
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 06 Nov 2022 12:59:38 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=60, s-maxage=60",
+      "Vary": "Accept, Accept-Encoding, Accept, X-Requested-With",
+      "ETag": "W/\"2cefa9693c1b09cde3f0dd77128ef46bf0fef7ddc8f4b74ba3c35e62fb51df22\"",
+      "X-GitHub-Media-Type": "github.v3; format=json",
+      "Link": "<http://localhost:8080/repositories/247308472/branches?page=2&per_page=4>; rel=\"prev\", <http://localhost:8080/repositories/247308472/branches?page=1&per_page=4>; rel=\"first\"",
+      "Access-Control-Expose-Headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "Access-Control-Allow-Origin": "*",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Frame-Options": "deny",
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "0",
+      "Referrer-Policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "Content-Security-Policy": "default-src 'none'",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "47",
+      "X-RateLimit-Reset": "1667740360",
+      "X-RateLimit-Resource": "core",
+      "X-RateLimit-Used": "13",
+      "Accept-Ranges": "bytes",
+      "X-GitHub-Request-Id": "FE3A:AE31:9584FDE:97CC5CB:6367AFBA"
+    }
+  },
+  "uuid": "6f8c6a5d-17da-4a5b-be0d-ca3157751ce4",
+  "persistent": true,
+  "insertionIndex": 22
+}

@@ -23,6 +23,7 @@ dependencies {
     implementation "org.mapstruct:mapstruct:$mapstructVersion"
     annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation "com.github.tomakehurst:wiremock-standalone:2.27.2"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.assertj:assertj-core:$assertJVersion"
 }
