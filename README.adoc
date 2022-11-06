@@ -48,6 +48,7 @@ https://spring.io/projects/spring-boot[Spring Boot 2.7.4]
 . https://swagger.io/[Swagger]
 . https://joel-costigliola.github.io/assertj[Assert J]
 . https://github.com/GoogleContainerTools/jib[Google Jib]
+. https://wiremock.org[Wiremock]
 
 === Additional tools
 
@@ -468,15 +469,6 @@ As a further mandatory improvement, the author would split the project into sepa
 - Respect the https://medium.com/microtica/the-concept-of-domain-driven-design-explained-3184c0fd7c3f[domain boundaries]
 
 - Represent the seeds of future microservices
-
-=== Not exactly unit tests
-
-The use cases and the controller are thoroughly tested but in a pure integration tests fashion.
-These tests are not considered actual unit tests since they depend on the entire Spring context and interaction with external APIs and systems.
-
-This direct and non-optimal approach was favored due to the limited time for implementing the assignment.
-
-For an actual production project, the author would prefer to utilize https://www.baeldung.com/bdd-mockito[BDDMockito] to sparingly mock the WebClient's responses and return collections of faked objects (with https://www.baeldung.com/java-faker[JavaFaker]).
 
 == Additional resources
 
