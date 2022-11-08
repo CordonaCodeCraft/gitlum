@@ -1,0 +1,40 @@
+{
+  "id": "50852fde-882a-4010-a4ec-fb5a93a9ae38",
+  "name": "First page of paginated branches result",
+  "request": {
+    "url": "/repositories/247308472/branches?page=1&per_page=4",
+    "method": "GET"
+  },
+  "response": {
+    "status": 200,
+    "body": "[{\"name\":\"dependabot/npm_and_yarn/mobile-bg-frontend/async-2.6.4\",\"commit\":{\"sha\":\"cd1c61b20ddeff5089252c544f13a5bb949f968b\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/cd1c61b20ddeff5089252c544f13a5bb949f968b\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-bg-frontend/eventsource-1.1.1\",\"commit\":{\"sha\":\"0620a2e9b49efb4bc5323c8118b1703c6aed732c\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/0620a2e9b49efb4bc5323c8118b1703c6aed732c\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-bg-frontend/hapi/hoek-8.5.1\",\"commit\":{\"sha\":\"bf9703384148a1ad0f5dac8d654f6fd8d7c7fc65\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/bf9703384148a1ad0f5dac8d654f6fd8d7c7fc65\"},\"protected\":false},{\"name\":\"dependabot/npm_and_yarn/mobile-bg-frontend/moment-2.29.4\",\"commit\":{\"sha\":\"2f8dfd3c756731a3a8e8b70c0e307a13f6c39130\",\"url\":\"https://api.github.com/repos/Bisu-bg/mobile-bg/commits/2f8dfd3c756731a3a8e8b70c0e307a13f6c39130\"},\"protected\":false}]",
+    "headers": {
+      "Server": "GitHub.com",
+      "Date": "Sun, 06 Nov 2022 12:57:50 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "public, max-age=60, s-maxage=60",
+      "Vary": "Accept, Accept-Encoding, Accept, X-Requested-With",
+      "ETag": "W/\"83e6cb48616c12809fc89458e92ba44cff71483a90059e5419d3948d0888e475\"",
+      "X-GitHub-Media-Type": "github.v3; format=json",
+      "Link": "<http://localhost:8080/repositories/247308472/branches?page=2&per_page=4>; rel=\"next\", <http://localhost:8080/repositories/247308472/branches?page=3&per_page=4>; rel=\"last\"",
+      "Access-Control-Expose-Headers": "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+      "Access-Control-Allow-Origin": "*",
+      "Strict-Transport-Security": "max-age=31536000; includeSubdomains; preload",
+      "X-Frame-Options": "deny",
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "0",
+      "Referrer-Policy": "origin-when-cross-origin, strict-origin-when-cross-origin",
+      "Content-Security-Policy": "default-src 'none'",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "49",
+      "X-RateLimit-Reset": "1667740361",
+      "X-RateLimit-Resource": "core",
+      "X-RateLimit-Used": "11",
+      "Accept-Ranges": "bytes",
+      "X-GitHub-Request-Id": "FE2F:DCBC:7D62CED:7F77379:6367AF4C"
+    }
+  },
+  "uuid": "50852fde-882a-4010-a4ec-fb5a93a9ae38",
+  "persistent": true,
+  "insertionIndex": 18
+}

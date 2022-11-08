@@ -1,19 +1,12 @@
-spring:
-  application:
-    name: gitlum
-springdoc:
-  api-docs:
-    groups:
-      enabled: true
-    path: "/swagger-doc/v3/api-docs"
-  swagger-ui:
-    path: "/swagger-doc/swagger-ui.html"
 gitlum:
+  wiremock:
+    host: "localhost"
+    port: "8080"
   git:
-    base-url: "https://api.github.com"
+    base-url: "http://localhost:8080"
     repositories-uri: "/users/{user}/repos"
     branches-uri-pattern: "%s/repositories/%s/branches?page=%s&per_page=%s"
-    next-branch-page-regex: "<https://api\\.github\\.com/repositories/[0-9]*/branches\\?page=[0-9]*&per_page=[0-9]*>; rel=\"next\""
+    next-branch-page-regex: "<http://localhost:8080/repositories/[0-9]*/branches\\?page=[0-9]*&per_page=[0-9]*>; rel=\"next\""
     pagination-header-key: "Link"
     max-results-per-page-for-branches-allowed: "100"
   endpoints:
